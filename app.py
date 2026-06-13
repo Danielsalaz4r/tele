@@ -3,58 +3,56 @@ from flask import Flask, render_template_string
 
 app = Flask(__name__)
 
-# --- PARRILLA DE CANALES (CANAL 5 INCLUIDO) ---
-CANALES_TV = [
-    {
-        "id": "canal5",
-        "nombre": "Canal 5 HD",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Canal_5_Logo_2024.svg/120px-Canal_5_Logo_2024.svg.png",
-        # Usamos un player de alta compatibilidad que emula un navegador real
-        "embed_url": "https://www.youtube.com/embed/live_stream?channel=UC7Z_40ICt_7Zghv7idupXfA"
-    },
-    {
-        "id": "milenio",
-        "nombre": "Milenio TV",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Milenio_Televisi%C3%B3n_logo.svg/120px-Milenio_Televisi%C3%B3n_logo.svg.png",
-        "embed_url": "https://www.youtube.com/embed/live_stream?channel=UC7Z_40ICt_7Zghv7idupXfA"
-    }
+# --- PARRILLA COMPLETA DE CANALES MÉXICO ---
+CANALES = [
+    {"nombre": "Las Estrellas", "url": "https://stream7.mexicotieneorgano.com.mx/lasestrellas/index.m3u8"},
+    {"nombre": "Azteca 7", "url": "https://stream7.mexicotieneorgano.com.mx/azteca7/index.m3u8"},
+    {"nombre": "Canal 45 (Congreso)", "url": "https://stream7.mexicotieneorgano.com.mx/congreso/index.m3u8"},
+    {"nombre": "Milenio TV", "url": "https://www.milenio.com/hls/live.m3u8"},
+    {"nombre": "ADN 40", "url": "https://stream7.mexicotieneorgano.com.mx/adn40/index.m3u8"}
 ]
 
-HTML_TELEVISION = """
+HTML = """
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Mi Tele Cloud</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
-        body { background: #0d0e12; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
-        .pantalla { max-width: 800px; margin: 0 auto; background: #000; padding: 10px; border-radius: 10px; }
-        iframe { width: 100%; aspect-ratio: 16/9; border: none; }
-        .btn { padding: 10px 20px; margin: 5px; cursor: pointer; background: #242734; border: 1px solid #444; color: white; border-radius: 5px; }
-        .btn:hover { background: #00ffcc; color: #000; }
+        body { background: #0d0d0d; color: white; font-family: sans-serif; margin: 0; padding: 15px; text-align: center; }
+        .tv-box { width: 100%; max-width: 800px; margin: 0 auto; background: #000; border: 3px solid #444; border-radius: 8px; overflow: hidden; }
+        video { width: 100%; display: block; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        button { padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #0088cc; }
     </style>
 </head>
 <body>
-    <h1>📺 Mi Tele en la Nube</h1>
-    <div class="pantalla"><iframe id="tv-frame" src="" allowfullscreen allow="autoplay"></iframe></div>
-    <div style="margin-top:20px;">
-        {% for canal in lista_canales %}
-            <button class="btn" onclick="document.getElementById('tv-frame').src='{{ canal.embed_url }}'">
-                {{ canal.nombre }}
-            </button>
+    <h1>📺 Mi Tele Digital</h1>
+    <div class="tv-box"><video id="video" controls autoplay muted></video></div>
+    <div class="grid">
+        {% for c in canales %}
+            <button onclick="playCanal('{{ c.url }}')">{{ c.nombre }}</button>
         {% endfor %}
     </div>
     <script>
-        window.onload = function() { document.querySelector('.btn').click(); }
+        var video = document.getElementById('video');
+        function playCanal(url) {
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                video.play();
+            } else { video.src = url; }
+        }
     </script>
 </body>
 </html>
 """
 
 @app.route('/')
-def home():
-    return render_template_string(HTML_TELEVISION, lista_canales=CANALES_TV)
+def index():
+    return render_template_string(HTML, canales=CANALES)
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
