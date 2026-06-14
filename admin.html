@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Control en Vivo</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: 30px auto; padding: 0 16px; background: #121212; color: #e8eaed; }
+    h2 { margin-bottom: 4px; }
+    .match-block { border: 1px solid #333538; border-radius: 10px; padding: 14px; margin-bottom: 16px; background: #1e1e1e; }
+    .match-title { font-weight: 700; margin-bottom: 8px; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; align-items: center; }
+    input { width: 70px; padding: 6px; background: #2a2b2e; color: #e8eaed; border: 1px solid #333538; border-radius: 4px; }
+    button { padding: 8px 12px; cursor: pointer; border-radius: 6px; border: 1px solid #444; background: #2a2b2e; color: #e8eaed; }
+    button.finish { background: #3d1a1a; }
+    .ok { color: #6bdb94; font-size: 13px; }
+  </style>
+</head>
+<body>
+    <h2>Panel de Control en Vivo</h2>
+    <p>Selecciona el partido, ajusta minuto y marcador, y presiona el botón correspondiente.</p>
+
+    {% for match in matches %}
+    <div class="match-block">
+        <div class="match-title">#{{ match.id }} {{ match.home }} vs {{ match.away }} — Grupo {{ match.group }} ({{ match.status }})</div>
+        <div class="row">
+            <label>Minuto: <input type="text" id="min-{{ match.id }}" value="0"></label>
+            <label>Local: <input type="number" id="h-{{ match.id }}" value="{{ match.score_home if match.score_home is not none else 0 }}"></label>
+            <label>Visitante: <input type="number" id="a-{{ match.id }}" value="{{ match.score_away if match.score_away is not none else 0 }}"></label>
+        </div>
+        <div class="row">
+            <button onclick="update({{ match.id }}, 'live')">🔴 Actualizar EN VIVO</button>
+            <button class="finish" onclick="update({{ match.id }}, 'finished')">✅ Marcar TERMINADO</button>
+            <span class="ok" id="ok-{{ match.id }}"></span>
+        </div>
+    </div>
+    {% endfor %}
+
+    <script>
+        function update(id, status) {
+            const m = document.getElementById('min-' + id).value;
+            const h = document.getElementById('h-' + id).value;
+            const a = document.getElementById('a-' + id).value;
+            const okEl = document.getElementById('ok-' + id);
+
+            fetch(`/admin/update?id=${id}&m=${encodeURIComponent(m)}&h=${h}&a=${a}&s=${status}`)
+            .then(res => res.text())
+            .then(text => {
+                okEl.innerText = '✔ ' + text + ' (Min ' + m + ', ' + h + '-' + a + ', ' + status + ')';
+                setTimeout(() => okEl.innerText = '', 4000);
+            })
+            .catch(() => okEl.innerText = '⚠ Error al actualizar');
+        }
+    </script>
+</body>
+</html>

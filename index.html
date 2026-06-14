@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚽ Mundial 2026 – Partidos en Vivo</title>
+  <style>
+    :root {
+      --verde: #00874b;
+      --verde-claro: #00a85c;
+      --rojo: #ff4d4d;
+      --oro: #f4b943;
+      --blanco: #ffffff;
+      --gris-fondo: #121212;
+      --gris-panel: #1e1e1e;
+      --gris-borde: #333538;
+      --gris-texto: #9aa0a6;
+      --negro: #e8eaed;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Google Sans', 'Segoe UI', Arial, sans-serif; background: var(--gris-fondo); color: var(--negro); min-height: 100vh; }
+
+    header { background: var(--gris-panel); color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.5); border-bottom: 1px solid var(--gris-borde); }
+    .header-top { display: flex; align-items: center; gap: 16px; padding: 12px 24px; }
+    .logo { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 10px; text-decoration: none; color: white;}
+    .logo-badge { background: var(--oro); color: var(--verde); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; letter-spacing: 1px; }
+    .header-nav { display: flex; gap: 4px; padding: 0 24px; overflow-x: auto; }
+    .nav-btn { background: none; border: none; color: rgba(255,255,255,.8); font-size: 14px; font-weight: 500; padding: 10px 16px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all .2s; text-decoration: none; }
+    .nav-btn:hover, .nav-btn.active { color: white; border-bottom-color: var(--oro); }
+
+    .live-ticker { background: var(--rojo); color: white; padding: 8px 24px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 12px; overflow: hidden; }
+    .ticker-label { background: white; color: var(--rojo); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
+    .ticker-scroll { white-space: nowrap; animation: scroll-ticker 35s linear infinite; }
+    @keyframes scroll-ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-200%); } }
+
+    main { max-width: 980px; margin: 24px auto; padding: 0 16px; }
+
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .section-badge { background: var(--rojo); color: white; font-size: 11px; padding: 2px 8px; border-radius: 20px; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+    .mexico-section { background: linear-gradient(135deg, #003d26 0%, #00592f 60%, #003d26 100%); border-radius: 16px; padding: 20px; margin-bottom: 28px; color: white; position: relative; overflow: hidden; }
+    .mexico-section::before { content: '⚽'; position: absolute; font-size: 110px; right: -5px; top: -10px; opacity: .12; pointer-events: none; }
+    .mexico-section-title { font-size: 13px; font-weight: 700; opacity: .85; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; }
+    .mexico-matches { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+    .mexico-match-mini { background: rgba(255,255,255,.08); border-radius: 10px; padding: 12px; cursor: pointer; transition: background .2s; border: 1px solid rgba(255,255,255,.15); text-decoration: none; color: white; display: block;}
+    .mexico-match-mini:hover { background: rgba(255,255,255,.15); }
+    .mx-teams { font-size: 14px; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .mx-teams img { height: 14px; width: 21px; border-radius: 2px; object-fit: cover; }
+    .mx-details { font-size: 11px; opacity: .8; margin-top: 3px; }
+
+    .filter-bar { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; margin-bottom: 20px; }
+    .filter-btn { background: var(--gris-panel); border: 1px solid var(--gris-borde); border-radius: 8px; padding: 8px 12px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all .2s; color: var(--negro); text-align: center; }
+    .filter-btn:hover, .filter-btn.active { background: var(--verde); color: white; border-color: var(--verde); }
+    .filter-btn.all-btn { grid-column: 1 / -1; font-weight: 700; background: #1a2b3d; color: #8ab4f8; border-color: #2a3f55; }
+    .filter-btn.all-btn:hover, .filter-btn.all-btn.active { background: var(--verde); color: white; border-color: var(--verde); }
+
+    .matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-bottom: 24px; }
+
+    .match-card { background: var(--gris-panel); border-radius: 12px; border: 1px solid var(--gris-borde); padding: 16px; cursor: pointer; transition: box-shadow .2s, transform .15s; position: relative; text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between; }
+    .match-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.4); transform: translateY(-2px); }
+    .match-card.mexico-card { border-left: 4px solid var(--verde); }
+    .match-card.live-card { border-left: 4px solid var(--rojo); }
+
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .group-label { font-size: 11px; font-weight: 700; color: var(--gris-texto); text-transform: uppercase; letter-spacing: 1px; }
+    .status-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+    .status-pill.live { background: #3d1a1a; color: #ff6b6b; }
+    .status-pill.finished { background: #1a2b3d; color: #8ab4f8; }
+    .status-pill.upcoming { background: #1a3d24; color: #6bdb94; }
+
+    .scoreboard { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+    .team { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+    .team-flag img { height: 30px; width: 45px; border-radius: 3px; object-fit: cover; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+    .team-name { font-size: 12px; font-weight: 600; text-align: center; }
+    .score-box { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .score { font-size: 30px; font-weight: 800; min-width: 28px; text-align: center; }
+    .score-sep { font-size: 22px; color: var(--gris-texto); }
+    .score-vs { font-size: 14px; color: var(--gris-texto); font-weight: 500; }
+
+    .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--gris-borde); }
+    .match-info { font-size: 11px; color: var(--gris-texto); }
+    .watch-btn { background: var(--verde); color: white; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background .2s; }
+    .watch-btn:hover { background: var(--verde-claro); }
+    .mexico-star { position: absolute; top: 8px; right: 8px; font-size: 14px; }
+
+    .date-group { margin-bottom: 28px; }
+    .date-header { font-size: 13px; font-weight: 700; color: var(--gris-texto); text-transform: uppercase; letter-spacing: 1px; padding: 8px 0; margin-bottom: 10px; border-bottom: 2px solid var(--gris-borde); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <a href="/" class="logo">⚽ Mundial 2026 <span class="logo-badge">PORTAL</span></a>
+  </div>
+  <nav class="header-nav">
+    <button class="nav-btn active" onclick="filterMatches('all', this)">Todos los Partidos</button>
+    <button class="nav-btn" onclick="filterMatches('live', this)">🔴 En Vivo</button>
+    <button class="nav-btn" onclick="filterMatches('mexico', this)">🇲🇽 México</button>
+    <button class="nav-btn" onclick="filterMatches('upcoming', this)">Próximos</button>
+    <button class="nav-btn" onclick="filterMatches('finished', this)">Terminados</button>
+  </nav>
+</header>
+
+<div class="live-ticker">
+  <span class="ticker-label">AHORA</span>
+  <span class="ticker-scroll" id="ticker-content">Cargando resultados...</span>
+</div>
+
+<main>
+
+  <div class="mexico-section" id="mexico-section">
+    <div class="mexico-section-title">🇲🇽 Partidos de México — Grupo A</div>
+    <div class="mexico-matches">
+      {% for match in matches if match.is_mexico %}
+      <a href="/match/{{ match.id }}" class="mexico-match-mini">
+        <div class="mx-teams">
+          <img src="{{ match.flag_home }}" alt="" onerror="this.src='https://placehold.co/21x14?text=🏳'">
+          <span>{{ match.home }}</span>
+          <span>vs</span>
+          <img src="{{ match.flag_away }}" alt="" onerror="this.src='https://placehold.co/21x14?text=🏳'">
+          <span>{{ match.away }}</span>
+        </div>
+        <div class="mx-details">
+          {% if match.status == 'finished' %}✅ {{ match.score_home }} - {{ match.score_away }} · Terminado
+          {% elif match.status == 'live' %}🔴 EN VIVO
+          {% else %}📅 {{ match.date }} · {{ match.time_mex }} MEX{% endif %}
+        </div>
+        <div class="mx-details">🏟 {{ match.stadium }}</div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="filter-bar" id="group-filters">
+    <button class="filter-btn active all-btn" onclick="filterGroup('all', this)">Todos los Grupos</button>
+    {% for letter in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'] %}
+      <button class="filter-btn" onclick="filterGroup('{{ letter }}', this)">Grupo {{ letter }}</button>
+    {% endfor %}
+  </div>
+
+  <div id="section-live" class="date-group">
+    <div class="section-title">🔴 En Vivo <span class="section-badge">LIVE</span></div>
+    <div class="matches-grid" id="live-matches-grid">
+      <!-- Se llena dinámicamente con JS -->
+    </div>
+    <p id="no-live-msg" style="color: var(--gris-texto); font-size: 14px;">No hay partidos en vivo en este momento.</p>
+  </div>
+
+  <div id="section-all">
+    <div class="section-title">📋 Todos los Partidos</div>
+
+    {% set ns = namespace(dates=[]) %}
+    {% for match in matches %}{% if match.date not in ns.dates %}{% set ns.dates = ns.dates + [match.date] %}{% endif %}{% endfor %}
+
+    {% for date in ns.dates|sort %}
+    <div class="date-group match-date-group" data-date="{{ date }}">
+      <div class="date-header">{{ date }}</div>
+      <div class="matches-grid">
+        {% for match in matches if match.date == date %}
+        {% set CleanGroup = match.group[-1] if 'Grupo' in match.group else match.group %}
+        <a href="/match/{{ match.id }}" class="match-card {% if match.is_mexico %}mexico-card{% elif match.status == 'live' %}live-card{% endif %}"
+             data-status="{{ match.status }}"
+             data-mexico="{{ 'true' if match.is_mexico else 'false' }}"
+             data-group="{{ CleanGroup }}"
+             data-match-id="{{ match.id }}">
+          {% if match.is_mexico %}<span class="mexico-star">🌟</span>{% endif %}
+          <div class="card-header">
+            <span class="group-label">Grupo {{ CleanGroup }}</span>
+            <span class="status-pill {{ match.status }}">
+              {% if match.status == 'live' %}🔴 Min {{ match.minute }}'
+              {% elif match.status == 'finished' %}✅ Terminado
+              {% else %}⏰ {{ match.time_mex }} MEX{% endif %}
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag"><img src="{{ match.flag_home }}" alt="" onerror="this.src='https://placehold.co/45x30?text=🏳'"></span>
+              <span class="team-name">{{ match.home }}</span>
+            </div>
+            <div class="score-box">
+              {% if match.status == 'finished' or match.status == 'live' %}
+                <span class="score">{{ match.score_home if match.score_home is not none else '0' }}</span>
+                <span class="score-sep">:</span>
+                <span class="score">{{ match.score_away if match.score_away is not none else '0' }}</span>
+              {% else %}
+                <span class="score-vs">VS</span>
+              {% endif %}
+            </div>
+            <div class="team">
+              <span class="team-flag"><img src="{{ match.flag_away }}" alt="" onerror="this.src='https://placehold.co/45x30?text=🏳'"></span>
+              <span class="team-name">{{ match.away }}</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 {{ match.city }}</span>
+            <button class="watch-btn">📺 Ver</button>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</main>
+
+<script>
+function filterMatches(type, btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.match-card').forEach(c => {
+    let show = true;
+    if (type === 'live')     show = c.dataset.status === 'live';
+    if (type === 'mexico')   show = c.dataset.mexico === 'true';
+    if (type === 'upcoming') show = c.dataset.status === 'upcoming';
+    if (type === 'finished') show = c.dataset.status === 'finished';
+    c.style.display = show ? '' : 'none';
+  });
+  syncGroupWrappers();
+  document.getElementById('mexico-section').style.display = (type === 'all' || type === 'mexico') ? '' : 'none';
+  document.getElementById('section-live').style.display = (type === 'all' || type === 'live') ? '' : 'none';
+}
+
+function filterGroup(group, btn) {
+  document.querySelectorAll('#group-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.match-card').forEach(c => {
+    c.style.display = (group === 'all' || c.dataset.group === group) ? '' : 'none';
+  });
+  syncGroupWrappers();
+}
+
+function syncGroupWrappers() {
+  document.querySelectorAll('.match-date-group').forEach(g => {
+    const visible = [...g.querySelectorAll('.match-card')].some(c => c.style.display !== 'none');
+    g.style.display = visible ? '' : 'none';
+  });
+}
+
+function updateCardContent(card, data) {
+    const status = data.status;
+    card.dataset.status = status;
+
+    // Pill de estado
+    const pill = card.querySelector('.status-pill');
+    if (pill) {
+        if (status === 'live') {
+            pill.innerHTML = `🔴 Min ${data.minute}'`;
+            pill.className = 'status-pill live';
+        } else if (status === 'finished') {
+            pill.innerHTML = '✅ Terminado';
+            pill.className = 'status-pill finished';
+        } else {
+            pill.innerHTML = `⏰ ${data.minute || ''} MEX`;
+            pill.className = 'status-pill upcoming';
+        }
+    }
+
+    // Marcador
+    const scoreBox = card.querySelector('.score-box');
+    if (scoreBox) {
+        if (status === 'finished' || status === 'live') {
+            scoreBox.innerHTML = `<span class="score">${data.score_home}</span><span class="score-sep">:</span><span class="score">${data.score_away}</span>`;
+        } else {
+            scoreBox.innerHTML = `<span class="score-vs">VS</span>`;
+        }
+    }
+
+    // Clase live-card
+    if (status === 'live') {
+        card.classList.add('live-card');
+    } else {
+        card.classList.remove('live-card');
+    }
+}
+
+function syncAll() {
+    fetch('/api/status?t=' + new Date().getTime())
+    .then(res => res.json())
+    .then(allData => {
+        const liveGrid = document.getElementById('live-matches-grid');
+        const noLiveMsg = document.getElementById('no-live-msg');
+        let liveCount = 0;
+
+        allData.forEach(data => {
+            const card = document.querySelector(`#section-all .match-card[data-match-id="${data.id}"]`);
+            if (!card) return;
+
+            updateCardContent(card, data);
+
+            if (data.status === 'live') {
+                liveCount++;
+                // Buscar o crear el clon en la sección "En Vivo"
+                let liveCard = liveGrid.querySelector(`[data-match-id="${data.id}"]`);
+                if (!liveCard) {
+                    liveCard = card.cloneNode(true);
+                    liveGrid.appendChild(liveCard);
+                } else {
+                    updateCardContent(liveCard, data);
+                }
+            } else {
+                // Si ya no está live, quitar el clon de la sección "En Vivo"
+                const oldLiveCard = liveGrid.querySelector(`[data-match-id="${data.id}"]`);
+                if (oldLiveCard) oldLiveCard.remove();
+            }
+        });
+
+        noLiveMsg.style.display = liveCount === 0 ? '' : 'none';
+        syncGroupWrappers();
+        updateTicker(allData);
+    });
+}
+
+function updateTicker(allData) {
+    const ticker = document.getElementById('ticker-content');
+    const items = allData
+        .filter(d => d.status === 'live' || d.status === 'finished')
+        .map(d => {
+            if (d.status === 'live') {
+                return `🔴 ${d.home} ${d.score_home}-${d.score_away} ${d.away} (${d.minute}')`;
+            }
+            return `✅ ${d.home} ${d.score_home}-${d.score_away} ${d.away}`;
+        });
+
+    ticker.textContent = items.length > 0 ? items.join(' · ') : 'No hay resultados disponibles por el momento';
+}
+setInterval(syncAll, 2000);
+syncAll();
+
+</script>
+</body>
+</html>

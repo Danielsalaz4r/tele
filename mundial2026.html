@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚽ Mundial 2026 – Partidos en Vivo</title>
+  <style>
+    :root {
+      --verde: #006341;
+      --verde-claro: #00874b;
+      --rojo: #ce1126;
+      --oro: #f4b943;
+      --blanco: #ffffff;
+      --gris-fondo: #f1f3f4;
+      --gris-borde: #dadce0;
+      --gris-texto: #5f6368;
+      --negro: #202124;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Google Sans', 'Segoe UI', Arial, sans-serif; background: var(--gris-fondo); color: var(--negro); min-height: 100vh; }
+
+    header { background: var(--verde); color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+    .header-top { display: flex; align-items: center; gap: 16px; padding: 12px 24px; }
+    .logo { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+    .logo-badge { background: var(--oro); color: var(--verde); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; letter-spacing: 1px; }
+    .header-nav { display: flex; gap: 4px; padding: 0 24px; overflow-x: auto; }
+    .nav-btn { background: none; border: none; color: rgba(255,255,255,.8); font-size: 14px; font-weight: 500; padding: 10px 16px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all .2s; }
+    .nav-btn:hover, .nav-btn.active { color: white; border-bottom-color: var(--oro); }
+
+    .live-ticker { background: var(--rojo); color: white; padding: 8px 24px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 12px; overflow: hidden; }
+    .ticker-label { background: white; color: var(--rojo); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
+    .ticker-scroll { white-space: nowrap; animation: scroll-ticker 35s linear infinite; }
+    @keyframes scroll-ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-200%); } }
+
+    main { max-width: 980px; margin: 24px auto; padding: 0 16px; }
+
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .section-badge { background: var(--rojo); color: white; font-size: 11px; padding: 2px 8px; border-radius: 20px; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+    .mexico-section { background: linear-gradient(135deg, #004d31 0%, #006341 60%, #004d31 100%); border-radius: 16px; padding: 20px; margin-bottom: 28px; color: white; position: relative; overflow: hidden; }
+    .mexico-section::before { content: '🇲🇽'; position: absolute; font-size: 110px; right: -5px; top: -10px; opacity: .12; pointer-events: none; }
+    .mexico-section-title { font-size: 13px; font-weight: 700; opacity: .85; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; }
+    .mexico-matches { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+    .mexico-match-mini { background: rgba(255,255,255,.12); border-radius: 10px; padding: 12px; cursor: pointer; transition: background .2s; border: 1px solid rgba(255,255,255,.2); }
+    .mexico-match-mini:hover { background: rgba(255,255,255,.22); }
+    .mx-teams { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+    .mx-details { font-size: 11px; opacity: .8; margin-top: 3px; }
+
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .filter-btn { background: white; border: 1px solid var(--gris-borde); border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all .2s; color: var(--negro); }
+    .filter-btn:hover, .filter-btn.active { background: var(--verde); color: white; border-color: var(--verde); }
+
+    .matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-bottom: 24px; }
+
+    .match-card { background: white; border-radius: 12px; border: 1px solid var(--gris-borde); padding: 16px; cursor: pointer; transition: box-shadow .2s, transform .15s; position: relative; }
+    .match-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.15); transform: translateY(-2px); }
+    .match-card.mexico-card { border-left: 4px solid var(--verde); }
+    .match-card.live-card { border-left: 4px solid var(--rojo); }
+
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .group-label { font-size: 11px; font-weight: 700; color: var(--gris-texto); text-transform: uppercase; letter-spacing: 1px; }
+    .status-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+    .status-pill.live { background: #fce8e6; color: #c5221f; }
+    .status-pill.finished { background: #e8f0fe; color: #1a73e8; }
+    .status-pill.upcoming { background: #e6f4ea; color: #137333; }
+
+    .scoreboard { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+    .team { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+    .team-flag { font-size: 32px; line-height: 1; }
+    .team-name { font-size: 12px; font-weight: 600; text-align: center; }
+    .score-box { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .score { font-size: 30px; font-weight: 800; min-width: 28px; text-align: center; }
+    .score-sep { font-size: 22px; color: var(--gris-texto); }
+    .score-vs { font-size: 14px; color: var(--gris-texto); font-weight: 500; }
+
+    .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--gris-borde); }
+    .match-info { font-size: 11px; color: var(--gris-texto); }
+    .watch-btn { background: var(--verde); color: white; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background .2s; }
+    .watch-btn:hover { background: var(--verde-claro); }
+    .mexico-star { position: absolute; top: 8px; right: 8px; font-size: 14px; }
+
+    .date-group { margin-bottom: 28px; }
+    .date-header { font-size: 13px; font-weight: 700; color: var(--gris-texto); text-transform: uppercase; letter-spacing: 1px; padding: 8px 0; margin-bottom: 10px; border-bottom: 2px solid var(--gris-borde); }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: white; border-radius: 16px; width: 100%; max-width: 520px; box-shadow: 0 20px 60px rgba(0,0,0,.3); overflow: hidden; animation: modalIn .25s ease; }
+    @keyframes modalIn { from { opacity: 0; transform: scale(.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .modal-header { background: var(--verde); color: white; padding: 20px 24px; }
+    .modal-title { font-size: 19px; font-weight: 700; margin-bottom: 5px; }
+    .modal-meta { font-size: 13px; opacity: .85; }
+    .modal-body { padding: 20px 24px; }
+    .streams-label { font-size: 12px; font-weight: 700; color: var(--gris-texto); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .stream-link { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid var(--gris-borde); border-radius: 10px; margin-bottom: 8px; text-decoration: none; color: var(--negro); transition: all .2s; }
+    .stream-link:hover { background: var(--gris-fondo); border-color: var(--verde); }
+    .stream-info { display: flex; align-items: center; gap: 10px; }
+    .stream-icon { font-size: 20px; width: 30px; text-align: center; }
+    .stream-name { font-weight: 600; font-size: 14px; }
+    .stream-type { font-size: 11px; color: var(--gris-texto); }
+    .stream-arrow { color: var(--gris-texto); font-size: 18px; }
+    .modal-close { background: var(--gris-fondo); border: none; border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 8px; color: var(--negro); }
+    .modal-close:hover { background: var(--gris-borde); }
+    .streams-section { margin-bottom: 16px; }
+
+    @media (max-width: 600px) {
+      .header-top { padding: 10px 16px; }
+      main { margin: 12px auto; }
+      .matches-grid { grid-template-columns: 1fr; }
+      .mexico-matches { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo">⚽ Mundial 2026 <span class="logo-badge">EN CURSO</span></div>
+  </div>
+  <nav class="header-nav">
+    <button class="nav-btn active" onclick="filterMatches('all', this)">Todos los Partidos</button>
+    <button class="nav-btn" onclick="filterMatches('live', this)">🔴 En Vivo</button>
+    <button class="nav-btn" onclick="filterMatches('mexico', this)">🇲🇽 México</button>
+    <button class="nav-btn" onclick="filterMatches('upcoming', this)">Próximos</button>
+    <button class="nav-btn" onclick="filterMatches('finished', this)">Terminados</button>
+  </nav>
+</header>
+
+<div class="live-ticker">
+  <span class="ticker-label">AHORA</span>
+  <span class="ticker-scroll">🔴 Qatar 0-0 Suiza (34') · ✅ México 2-0 Sudáfrica · ✅ Rep. Checa 2-1 Corea del Sur · ✅ Canadá 1-1 Bosnia · ✅ EE.UU. 4-1 Paraguay · Próximo: 🇧🇷 Brasil vs Marruecos 🇲🇦 — 16:00 · 🇭🇹 Haití vs Escocia 🏴󠁧󠁢󠁳󠁣󠁴󠁿 — 19:00 · 🇦🇺 Australia vs Turquía 🇹🇷 — 22:00</span>
+</div>
+
+<main>
+
+  <!-- SECCIÓN MÉXICO -->
+  <div class="mexico-section" id="mexico-section">
+    <div class="mexico-section-title">🇲🇽 Partidos de México — Grupo A</div>
+    <div class="mexico-matches">
+      
+      <div class="mexico-match-mini" onclick="openModal(1)">
+        <div class="mx-teams">🇲🇽 México vs Sudáfrica 🇿🇦</div>
+        <div class="mx-details">
+          ✅ 2 - 0 · Terminado
+          
+        </div>
+        <div class="mx-details">🏟 Estadio Azteca, Ciudad de México</div>
+      </div>
+      
+      <div class="mexico-match-mini" onclick="openModal(14)">
+        <div class="mx-teams">🇲🇽 México vs Corea del Sur 🇰🇷</div>
+        <div class="mx-details">
+          📅 2026-06-18 · 19:00 MEX
+        </div>
+        <div class="mx-details">🏟 Estadio Akron, Guadalajara</div>
+      </div>
+      
+      <div class="mexico-match-mini" onclick="openModal(21)">
+        <div class="mx-teams">🇲🇽 México vs Sudáfrica 🇿🇦</div>
+        <div class="mx-details">
+          📅 2026-06-22 · ...TBD MEX
+        </div>
+        <div class="mx-details">🏟 TBD, TBD</div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- FILTROS DE GRUPO -->
+  <div class="filter-bar" id="group-filters">
+    <button class="filter-btn active" onclick="filterGroup('all', this)">Todos</button>
+    <button class="filter-btn" onclick="filterGroup('A', this)">Grupo A</button>
+    <button class="filter-btn" onclick="filterGroup('B', this)">Grupo B</button>
+    <button class="filter-btn" onclick="filterGroup('C', this)">Grupo C</button>
+    <button class="filter-btn" onclick="filterGroup('D', this)">Grupo D</button>
+    <button class="filter-btn" onclick="filterGroup('E', this)">Grupo E</button>
+    <button class="filter-btn" onclick="filterGroup('F', this)">Grupo F</button>
+    <button class="filter-btn" onclick="filterGroup('G', this)">Grupo G</button>
+    <button class="filter-btn" onclick="filterGroup('H', this)">Grupo H</button>
+    <button class="filter-btn" onclick="filterGroup('I', this)">Grupo I</button>
+    <button class="filter-btn" onclick="filterGroup('J', this)">Grupo J</button>
+    <button class="filter-btn" onclick="filterGroup('K', this)">Grupo K</button>
+    <button class="filter-btn" onclick="filterGroup('L', this)">Grupo L</button>
+  </div>
+
+  <!-- EN VIVO -->
+  <div id="section-live" class="date-group">
+    <div class="section-title">🔴 En Vivo <span class="section-badge">LIVE</span></div>
+    <div class="matches-grid">
+      
+      <div class="match-card live-card" onclick="openModal(5)" data-status="live" data-mexico="false" data-group="B">
+        <div class="card-header">
+          <span class="group-label">Grupo B</span>
+          <span class="status-pill live">🔴 34'</span>
+        </div>
+        <div class="scoreboard">
+          <div class="team"><span class="team-flag">🇶🇦</span><span class="team-name">Qatar</span></div>
+          <div class="score-box"><span class="score">-</span><span class="score-sep">:</span><span class="score">-</span></div>
+          <div class="team"><span class="team-flag">🇨🇭</span><span class="team-name">Suiza</span></div>
+        </div>
+        <div class="card-footer">
+          <span class="match-info">🏟 San Francisco</span>
+          <button class="watch-btn" onclick="event.stopPropagation();openModal(5)">📺 Ver en vivo</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- TODOS POR FECHA -->
+  <div id="section-all">
+    <div class="section-title">📋 Todos los Partidos</div>
+
+    
+    
+
+    
+    <div class="date-group match-date-group" data-date="2026-06-11">
+      <div class="date-header">2026-06-11</div>
+      <div class="matches-grid">
+        
+        <div class="match-card mexico-card"
+             onclick="openModal(1)"
+             data-status="finished"
+             data-mexico="true"
+             data-group="A">
+          <span class="mexico-star">🌟</span>
+          <div class="card-header">
+            <span class="group-label">Grupo A</span>
+            <span class="status-pill finished">
+              ✅ Terminado
+              
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇲🇽</span>
+              <span class="team-name">México</span>
+            </div>
+            <div class="score-box">
+              
+              <span class="score">2</span><span class="score-sep">:</span><span class="score">0</span>
+              
+            </div>
+            <div class="team">
+              <span class="team-flag">🇿🇦</span>
+              <span class="team-name">Sudáfrica</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Ciudad de México</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(1)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(2)"
+             data-status="finished"
+             data-mexico="false"
+             data-group="A">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo A</span>
+            <span class="status-pill finished">
+              ✅ Terminado
+              
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇰🇷</span>
+              <span class="team-name">Corea del Sur</span>
+            </div>
+            <div class="score-box">
+              
+              <span class="score">2</span><span class="score-sep">:</span><span class="score">1</span>
+              
+            </div>
+            <div class="team">
+              <span class="team-flag">🇨🇿</span>
+              <span class="team-name">Rep. Checa</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Guadalajara</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(2)">📺 Ver</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="date-group match-date-group" data-date="2026-06-12">
+      <div class="date-header">2026-06-12</div>
+      <div class="matches-grid">
+        
+        <div class="match-card "
+             onclick="openModal(3)"
+             data-status="finished"
+             data-mexico="false"
+             data-group="B">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo B</span>
+            <span class="status-pill finished">
+              ✅ Terminado
+              
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇨🇦</span>
+              <span class="team-name">Canadá</span>
+            </div>
+            <div class="score-box">
+              
+              <span class="score">1</span><span class="score-sep">:</span><span class="score">1</span>
+              
+            </div>
+            <div class="team">
+              <span class="team-flag">🇧🇦</span>
+              <span class="team-name">Bosnia y Herz.</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Toronto</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(3)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(4)"
+             data-status="finished"
+             data-mexico="false"
+             data-group="D">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo D</span>
+            <span class="status-pill finished">
+              ✅ Terminado
+              
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇺🇸</span>
+              <span class="team-name">Estados Unidos</span>
+            </div>
+            <div class="score-box">
+              
+              <span class="score">4</span><span class="score-sep">:</span><span class="score">1</span>
+              
+            </div>
+            <div class="team">
+              <span class="team-flag">🇵🇾</span>
+              <span class="team-name">Paraguay</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Los Ángeles</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(4)">📺 Ver</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="date-group match-date-group" data-date="2026-06-13">
+      <div class="date-header">2026-06-13</div>
+      <div class="matches-grid">
+        
+        <div class="match-card live-card"
+             onclick="openModal(5)"
+             data-status="live"
+             data-mexico="false"
+             data-group="B">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo B</span>
+            <span class="status-pill live">
+              🔴 34'
+              
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇶🇦</span>
+              <span class="team-name">Qatar</span>
+            </div>
+            <div class="score-box">
+              
+              <span class="score">None</span><span class="score-sep">:</span><span class="score">None</span>
+              
+            </div>
+            <div class="team">
+              <span class="team-flag">🇨🇭</span>
+              <span class="team-name">Suiza</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 San Francisco</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(5)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(6)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="C">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo C</span>
+            <span class="status-pill upcoming">
+              ⏰ 16:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇧🇷</span>
+              <span class="team-name">Brasil</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇲🇦</span>
+              <span class="team-name">Marruecos</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Nueva Jersey</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(6)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(7)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="C">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo C</span>
+            <span class="status-pill upcoming">
+              ⏰ 19:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇭🇹</span>
+              <span class="team-name">Haití</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
+              <span class="team-name">Escocia</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Boston</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(7)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(8)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="D">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo D</span>
+            <span class="status-pill upcoming">
+              ⏰ 22:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇦🇺</span>
+              <span class="team-name">Australia</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇹🇷</span>
+              <span class="team-name">Turquía</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Vancouver</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(8)">📺 Ver</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="date-group match-date-group" data-date="2026-06-14">
+      <div class="date-header">2026-06-14</div>
+      <div class="matches-grid">
+        
+        <div class="match-card "
+             onclick="openModal(9)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="E">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo E</span>
+            <span class="status-pill upcoming">
+              ⏰ 11:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇩🇪</span>
+              <span class="team-name">Alemania</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇨🇼</span>
+              <span class="team-name">Curazao</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Houston</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(9)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(10)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="F">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo F</span>
+            <span class="status-pill upcoming">
+              ⏰ 14:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇳🇱</span>
+              <span class="team-name">Países Bajos</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇯🇵</span>
+              <span class="team-name">Japón</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Dallas</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(10)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(11)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="E">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo E</span>
+            <span class="status-pill upcoming">
+              ⏰ 17:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇨🇮</span>
+              <span class="team-name">Costa de Marfil</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇪🇨</span>
+              <span class="team-name">Ecuador</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Filadelfia</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(11)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(12)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="F">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo F</span>
+            <span class="status-pill upcoming">
+              ⏰ 20:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇸🇪</span>
+              <span class="team-name">Suecia</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇹🇳</span>
+              <span class="team-name">Túnez</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Monterrey</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(12)">📺 Ver</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="date-group match-date-group" data-date="2026-06-15">
+      <div class="date-header">2026-06-15</div>
+      <div class="matches-grid">
+        
+        <div class="match-card "
+             onclick="openModal(18)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="H">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo H</span>
+            <span class="status-pill upcoming">
+              ⏰ 10:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇪🇸</span>
+              <span class="team-name">España</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇨🇻</span>
+              <span class="team-name">Cabo Verde</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Atlanta</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(18)">📺 Ver</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="date-group match-date-group" data-date="2026-06-16">
+      <div class="date-header">2026-06-16</div>
+      <div class="matches-grid">
+        
+        <div class="match-card "
+             onclick="openModal(16)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="J">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo J</span>
+            <span class="status-pill upcoming">
+              ⏰ 19:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇦🇷</span>
+              <span class="team-name">Argentina</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇩🇿</span>
+              <span class="team-name">Argelia</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Kansas City</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(16)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(17)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="I">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo I</span>
+            <span class="status-pill upcoming">
+              ⏰ 13:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇫🇷</span>
+              <span class="team-name">Francia</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇸🇳</span>
+              <span class="team-name">Senegal</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Nueva Jersey</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(17)">📺 Ver</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="date-group match-date-group" data-date="2026-06-17">
+      <div class="date-header">2026-06-17</div>
+      <div class="matches-grid">
+        
+        <div class="match-card "
+             onclick="openModal(19)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="K">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo K</span>
+            <span class="status-pill upcoming">
+              ⏰ 11:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇵🇹</span>
+              <span class="team-name">Portugal</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇨🇩</span>
+              <span class="team-name">RD de Congo</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Houston</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(19)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(20)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="L">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo L</span>
+            <span class="status-pill upcoming">
+              ⏰ 14:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+              <span class="team-name">Inglaterra</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇭🇷</span>
+              <span class="team-name">Croacia</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Dallas</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(20)">📺 Ver</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="date-group match-date-group" data-date="2026-06-18">
+      <div class="date-header">2026-06-18</div>
+      <div class="matches-grid">
+        
+        <div class="match-card "
+             onclick="openModal(13)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="A">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo A</span>
+            <span class="status-pill upcoming">
+              ⏰ 10:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇨🇿</span>
+              <span class="team-name">Rep. Checa</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇿🇦</span>
+              <span class="team-name">Sudáfrica</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Atlanta</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(13)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card mexico-card"
+             onclick="openModal(14)"
+             data-status="upcoming"
+             data-mexico="true"
+             data-group="A">
+          <span class="mexico-star">🌟</span>
+          <div class="card-header">
+            <span class="group-label">Grupo A</span>
+            <span class="status-pill upcoming">
+              ⏰ 19:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇲🇽</span>
+              <span class="team-name">México</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇰🇷</span>
+              <span class="team-name">Corea del Sur</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Guadalajara</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(14)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(15)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="B">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo B</span>
+            <span class="status-pill upcoming">
+              ⏰ 13:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇨🇭</span>
+              <span class="team-name">Suiza</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇧🇦</span>
+              <span class="team-name">Bosnia y Herz.</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Los Ángeles</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(15)">📺 Ver</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="date-group match-date-group" data-date="2026-06-22">
+      <div class="date-header">2026-06-22</div>
+      <div class="matches-grid">
+        
+        <div class="match-card mexico-card"
+             onclick="openModal(21)"
+             data-status="upcoming"
+             data-mexico="true"
+             data-group="A">
+          <span class="mexico-star">🌟</span>
+          <div class="card-header">
+            <span class="group-label">Grupo A</span>
+            <span class="status-pill upcoming">
+              ⏰ ...TBD MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇲🇽</span>
+              <span class="team-name">México</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇿🇦</span>
+              <span class="team-name">Sudáfrica</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 TBD</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(21)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(22)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="J">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo J</span>
+            <span class="status-pill upcoming">
+              ⏰ 11:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇦🇷</span>
+              <span class="team-name">Argentina</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇦🇹</span>
+              <span class="team-name">Austria</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Dallas</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(22)">📺 Ver</button>
+          </div>
+        </div>
+        
+        <div class="match-card "
+             onclick="openModal(23)"
+             data-status="upcoming"
+             data-mexico="false"
+             data-group="I">
+          
+          <div class="card-header">
+            <span class="group-label">Grupo I</span>
+            <span class="status-pill upcoming">
+              ⏰ 15:00 MEX
+            </span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">
+              <span class="team-flag">🇫🇷</span>
+              <span class="team-name">Francia</span>
+            </div>
+            <div class="score-box">
+              <span class="score-vs">VS</span>
+            </div>
+            <div class="team">
+              <span class="team-flag">🇮🇶</span>
+              <span class="team-name">Irak</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="match-info">🏟 Filadelfia</span>
+            <button class="watch-btn" onclick="event.stopPropagation();openModal(23)">📺 Ver</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Partido</div>
+      <div class="modal-meta" id="modal-meta"></div>
+    </div>
+    <div class="modal-body">
+      <div class="streams-section">
+        <div class="streams-label">🇲🇽 Dónde ver en México</div>
+        <div id="mexico-streams"></div>
+      </div>
+      <div class="streams-section">
+        <div class="streams-label">🌍 Internacional</div>
+        <div id="global-streams"></div>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('open')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const MATCHES = [{"away": "Sud\u00e1frica", "city": "Ciudad de M\u00e9xico", "date": "2026-06-11", "group": "A", "home": "M\u00e9xico", "id": 1, "is_mexico": true, "score_away": 0, "score_home": 2, "stadium": "Estadio Azteca", "status": "finished", "time_mex": "13:00"}, {"away": "Rep. Checa", "city": "Guadalajara", "date": "2026-06-11", "group": "A", "home": "Corea del Sur", "id": 2, "is_mexico": false, "score_away": 1, "score_home": 2, "stadium": "Estadio Akron", "status": "finished", "time_mex": "20:00"}, {"away": "Bosnia y Herz.", "city": "Toronto", "date": "2026-06-12", "group": "B", "home": "Canad\u00e1", "id": 3, "is_mexico": false, "score_away": 1, "score_home": 1, "stadium": "BMO Field", "status": "finished", "time_mex": "13:00"}, {"away": "Paraguay", "city": "Los \u00c1ngeles", "date": "2026-06-12", "group": "D", "home": "Estados Unidos", "id": 4, "is_mexico": false, "score_away": 1, "score_home": 4, "stadium": "SoFi Stadium", "status": "finished", "time_mex": "19:00"}, {"away": "Suiza", "city": "San Francisco", "date": "2026-06-13", "group": "B", "home": "Qatar", "id": 5, "is_mexico": false, "minute": 34, "score_away": null, "score_home": null, "stadium": "Levi\u0027s Stadium", "status": "live", "time_mex": "13:00"}, {"away": "Marruecos", "city": "Nueva Jersey", "date": "2026-06-13", "group": "C", "home": "Brasil", "id": 6, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "MetLife Stadium", "status": "upcoming", "time_mex": "16:00"}, {"away": "Escocia", "city": "Boston", "date": "2026-06-13", "group": "C", "home": "Hait\u00ed", "id": 7, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "Gillette Stadium", "status": "upcoming", "time_mex": "19:00"}, {"away": "Turqu\u00eda", "city": "Vancouver", "date": "2026-06-13", "group": "D", "home": "Australia", "id": 8, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "BC Place", "status": "upcoming", "time_mex": "22:00"}, {"away": "Curazao", "city": "Houston", "date": "2026-06-14", "group": "E", "home": "Alemania", "id": 9, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "NRG Stadium", "status": "upcoming", "time_mex": "11:00"}, {"away": "Jap\u00f3n", "city": "Dallas", "date": "2026-06-14", "group": "F", "home": "Pa\u00edses Bajos", "id": 10, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "AT\u0026T Stadium", "status": "upcoming", "time_mex": "14:00"}, {"away": "Ecuador", "city": "Filadelfia", "date": "2026-06-14", "group": "E", "home": "Costa de Marfil", "id": 11, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "Lincoln Financial Field", "status": "upcoming", "time_mex": "17:00"}, {"away": "T\u00fanez", "city": "Monterrey", "date": "2026-06-14", "group": "F", "home": "Suecia", "id": 12, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "Estadio BBVA", "status": "upcoming", "time_mex": "20:00"}, {"away": "Sud\u00e1frica", "city": "Atlanta", "date": "2026-06-18", "group": "A", "home": "Rep. Checa", "id": 13, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "State Farm Arena", "status": "upcoming", "time_mex": "10:00"}, {"away": "Corea del Sur", "city": "Guadalajara", "date": "2026-06-18", "group": "A", "home": "M\u00e9xico", "id": 14, "is_mexico": true, "score_away": null, "score_home": null, "stadium": "Estadio Akron", "status": "upcoming", "time_mex": "19:00"}, {"away": "Bosnia y Herz.", "city": "Los \u00c1ngeles", "date": "2026-06-18", "group": "B", "home": "Suiza", "id": 15, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "SoFi Stadium", "status": "upcoming", "time_mex": "13:00"}, {"away": "Argelia", "city": "Kansas City", "date": "2026-06-16", "group": "J", "home": "Argentina", "id": 16, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "Arrowhead Stadium", "status": "upcoming", "time_mex": "19:00"}, {"away": "Senegal", "city": "Nueva Jersey", "date": "2026-06-16", "group": "I", "home": "Francia", "id": 17, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "MetLife Stadium", "status": "upcoming", "time_mex": "13:00"}, {"away": "Cabo Verde", "city": "Atlanta", "date": "2026-06-15", "group": "H", "home": "Espa\u00f1a", "id": 18, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "State Farm Arena", "status": "upcoming", "time_mex": "10:00"}, {"away": "RD de Congo", "city": "Houston", "date": "2026-06-17", "group": "K", "home": "Portugal", "id": 19, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "NRG Stadium", "status": "upcoming", "time_mex": "11:00"}, {"away": "Croacia", "city": "Dallas", "date": "2026-06-17", "group": "L", "home": "Inglaterra", "id": 20, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "AT\u0026T Stadium", "status": "upcoming", "time_mex": "14:00"}, {"away": "Sud\u00e1frica", "city": "TBD", "date": "2026-06-22", "group": "A", "home": "M\u00e9xico", "id": 21, "is_mexico": true, "score_away": null, "score_home": null, "stadium": "TBD", "status": "upcoming", "time_mex": "...TBD"}, {"away": "Austria", "city": "Dallas", "date": "2026-06-22", "group": "J", "home": "Argentina", "id": 22, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "AT\u0026T Stadium", "status": "upcoming", "time_mex": "11:00"}, {"away": "Irak", "city": "Filadelfia", "date": "2026-06-22", "group": "I", "home": "Francia", "id": 23, "is_mexico": false, "score_away": null, "score_home": null, "stadium": "Lincoln Financial Field", "status": "upcoming", "time_mex": "15:00"}];
+const FLAGS   = {"Alemania": "\ud83c\udde9\ud83c\uddea", "Arabia Saudita": "\ud83c\uddf8\ud83c\udde6", "Argelia": "\ud83c\udde9\ud83c\uddff", "Argentina": "\ud83c\udde6\ud83c\uddf7", "Australia": "\ud83c\udde6\ud83c\uddfa", "Austria": "\ud83c\udde6\ud83c\uddf9", "Bosnia y Herz.": "\ud83c\udde7\ud83c\udde6", "Brasil": "\ud83c\udde7\ud83c\uddf7", "B\u00e9lgica": "\ud83c\udde7\ud83c\uddea", "Cabo Verde": "\ud83c\udde8\ud83c\uddfb", "Canad\u00e1": "\ud83c\udde8\ud83c\udde6", "Colombia": "\ud83c\udde8\ud83c\uddf4", "Corea del Sur": "\ud83c\uddf0\ud83c\uddf7", "Costa de Marfil": "\ud83c\udde8\ud83c\uddee", "Croacia": "\ud83c\udded\ud83c\uddf7", "Curazao": "\ud83c\udde8\ud83c\uddfc", "Ecuador": "\ud83c\uddea\ud83c\udde8", "Egipto": "\ud83c\uddea\ud83c\uddec", "Escocia": "\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc73\udb40\udc63\udb40\udc74\udb40\udc7f", "Espa\u00f1a": "\ud83c\uddea\ud83c\uddf8", "Estados Unidos": "\ud83c\uddfa\ud83c\uddf8", "Francia": "\ud83c\uddeb\ud83c\uddf7", "Ghana": "\ud83c\uddec\ud83c\udded", "Hait\u00ed": "\ud83c\udded\ud83c\uddf9", "Inglaterra": "\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f", "Irak": "\ud83c\uddee\ud83c\uddf6", "Ir\u00e1n": "\ud83c\uddee\ud83c\uddf7", "Jap\u00f3n": "\ud83c\uddef\ud83c\uddf5", "Jordania": "\ud83c\uddef\ud83c\uddf4", "Marruecos": "\ud83c\uddf2\ud83c\udde6", "M\u00e9xico": "\ud83c\uddf2\ud83c\uddfd", "Noruega": "\ud83c\uddf3\ud83c\uddf4", "Nueva Zelanda": "\ud83c\uddf3\ud83c\uddff", "Panam\u00e1": "\ud83c\uddf5\ud83c\udde6", "Paraguay": "\ud83c\uddf5\ud83c\uddfe", "Pa\u00edses Bajos": "\ud83c\uddf3\ud83c\uddf1", "Portugal": "\ud83c\uddf5\ud83c\uddf9", "Qatar": "\ud83c\uddf6\ud83c\udde6", "RD de Congo": "\ud83c\udde8\ud83c\udde9", "Rep. Checa": "\ud83c\udde8\ud83c\uddff", "Senegal": "\ud83c\uddf8\ud83c\uddf3", "Sud\u00e1frica": "\ud83c\uddff\ud83c\udde6", "Suecia": "\ud83c\uddf8\ud83c\uddea", "Suiza": "\ud83c\udde8\ud83c\udded", "Turqu\u00eda": "\ud83c\uddf9\ud83c\uddf7", "T\u00fanez": "\ud83c\uddf9\ud83c\uddf3", "Uruguay": "\ud83c\uddfa\ud83c\uddfe", "Uzbekist\u00e1n": "\ud83c\uddfa\ud83c\uddff"};
+const STREAMS = {"global": [{"name": "FIFA+ (Gratis)", "type": "official", "url": "https://www.fifa.com/fifaplus/es/tournaments/mens/worldcup/canadamexicousa2026"}, {"name": "ESPN (Internacional)", "type": "stream", "url": "https://www.espn.com/watch/"}, {"name": "Fox Sports", "type": "tv", "url": "https://www.foxsports.com/live"}, {"name": "beIN Sports", "type": "stream", "url": "https://www.beinsports.com"}], "mexico": [{"name": "TUDN (Oficial)", "type": "tv", "url": "https://www.tudn.com/futbol/copa-del-mundo"}, {"name": "Televisa / Canal 5", "type": "tv", "url": "https://www.televisa.com/en-vivo/canal-5/"}, {"name": "ViX (Streaming)", "type": "stream", "url": "https://www.vix.com/es-mx/deportes"}, {"name": "Claro Sports", "type": "stream", "url": "https://www.clarosports.com"}, {"name": "Amazon Prime Video", "type": "stream", "url": "https://www.primevideo.com"}]};
+const ICONS   = { tv: '📺', stream: '💻', official: '🏆' };
+const TYPES   = { tv: 'Televisión', stream: 'Streaming', official: 'Oficial FIFA' };
+
+function openModal(id) {
+  const m = MATCHES.find(x => x.id === id);
+  if (!m) return;
+  const hf = FLAGS[m.home] || '🏳', af = FLAGS[m.away] || '🏳';
+  document.getElementById('modal-title').textContent = `${hf} ${m.home}  vs  ${m.away} ${af}`;
+  let meta = `Grupo ${m.group} · ${m.date} · ${m.time_mex} (hora MEX) · 🏟 ${m.stadium}, ${m.city}`;
+  if (m.status === 'finished') meta += ` · Resultado: ${m.score_home}-${m.score_away}`;
+  if (m.status === 'live') meta += ` · 🔴 EN VIVO ${m.minute || ''}'`;
+  document.getElementById('modal-meta').textContent = meta;
+
+  document.getElementById('mexico-streams').innerHTML = STREAMS.mexico.map(s =>
+    `<a href="${s.url}" target="_blank" rel="noopener" class="stream-link">
+      <div class="stream-info">
+        <span class="stream-icon">${ICONS[s.type]||'📺'}</span>
+        <div><div class="stream-name">${s.name}</div><div class="stream-type">${TYPES[s.type]||''}</div></div>
+      </div>
+      <span class="stream-arrow">›</span>
+    </a>`).join('');
+
+  document.getElementById('global-streams').innerHTML = STREAMS.global.map(s =>
+    `<a href="${s.url}" target="_blank" rel="noopener" class="stream-link">
+      <div class="stream-info">
+        <span class="stream-icon">${ICONS[s.type]||'📺'}</span>
+        <div><div class="stream-name">${s.name}</div><div class="stream-type">${TYPES[s.type]||''}</div></div>
+      </div>
+      <span class="stream-arrow">›</span>
+    </a>`).join('');
+
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModalClick(e) {
+  if (e.target === document.getElementById('modal-overlay'))
+    document.getElementById('modal-overlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('modal-overlay').classList.remove('open');
+});
+
+function filterMatches(type, btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.match-card');
+  cards.forEach(c => {
+    let show = true;
+    if (type === 'live')     show = c.dataset.status === 'live';
+    if (type === 'mexico')   show = c.dataset.mexico === 'true';
+    if (type === 'upcoming') show = c.dataset.status === 'upcoming';
+    if (type === 'finished') show = c.dataset.status === 'finished';
+    c.style.display = show ? '' : 'none';
+  });
+  document.querySelectorAll('.match-date-group').forEach(g => {
+    const visible = [...g.querySelectorAll('.match-card')].some(c => c.style.display !== 'none');
+    g.style.display = visible ? '' : 'none';
+  });
+  const mxSec = document.getElementById('mexico-section');
+  if (mxSec) mxSec.style.display = (type === 'all' || type === 'mexico') ? '' : 'none';
+  const liveSec = document.getElementById('section-live');
+  if (liveSec) liveSec.style.display = (type === 'all' || type === 'live') ? '' : 'none';
+}
+
+function filterGroup(group, btn) {
+  document.querySelectorAll('#group-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.match-card').forEach(c => {
+    c.style.display = (group === 'all' || c.dataset.group === group) ? '' : 'none';
+  });
+  document.querySelectorAll('.match-date-group').forEach(g => {
+    const visible = [...g.querySelectorAll('.match-card')].some(c => c.style.display !== 'none');
+    g.style.display = visible ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

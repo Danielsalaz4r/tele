@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📺 {{ match.home }} vs {{ match.away }} | En Vivo</title>
+  <style>
+    :root {
+      --verde: #00874b;
+      --verde-claro: #00a85c;
+      --rojo: #ff4d4d;
+      --oro: #f4b943;
+      --gris-fondo: #121212;
+      --gris-panel: #1e1e1e;
+      --gris-borde: #333538;
+      --gris-texto: #9aa0a6;
+      --negro: #e8eaed;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: 'Google Sans', 'Segoe UI', Arial, sans-serif; background: var(--gris-fondo); color: var(--negro); margin: 0; min-height: 100vh; }
+
+    header { background: var(--gris-panel); color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.5); border-bottom: 1px solid var(--gris-borde); }
+    .header-top { display: flex; align-items: center; gap: 16px; padding: 12px 24px; }
+    .logo { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 10px; text-decoration: none; color: white;}
+    .logo-badge { background: var(--oro); color: var(--verde); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; letter-spacing: 1px; }
+    .header-nav { display: flex; gap: 4px; padding: 0 24px; overflow-x: auto; }
+    .nav-btn { background: none; border: none; color: rgba(255,255,255,.8); font-size: 14px; font-weight: 500; padding: 10px 16px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all .2s; text-decoration: none; }
+    .nav-btn:hover, .nav-btn.active { color: white; border-bottom-color: var(--oro); }
+
+    .match-title-bar { padding: 15px 24px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid var(--gris-borde); }
+    .back-link { color: var(--negro); text-decoration: none; font-size: 20px; }
+    .match-heading { margin: 0; font-size: 18px; }
+    .container { max-width: 980px; margin: 20px auto; padding: 0 16px; }
+    
+    .stream-player { background: black; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; position: relative; }
+    iframe { width: 100%; height: 100%; border: none; }
+    
+    .scoreboard { background: var(--gris-panel); padding: 20px; border-radius: 12px; text-align: center; margin-top: 20px; border: 1px solid var(--gris-borde); }
+    .status-pill { background: #3d1a1a; color: #ff6b6b; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; }
+    .status-pill.live { background: #3d1a1a; color: #ff6b6b; }
+    .status-pill.finished { background: #1a2b3d; color: #8ab4f8; }
+    .status-pill.upcoming { background: #1a3d24; color: #6bdb94; }
+    .score-container { display: flex; justify-content: center; align-items: center; gap: 30px; font-size: 40px; font-weight: 800; margin-top: 15px; color: var(--negro); }
+    
+    h3 { color: var(--negro); margin: 0; padding-top: 4px; }
+    .channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 20px; }
+    .channel-btn { background: var(--gris-panel); color: var(--negro); border: 1px solid var(--gris-borde); padding: 10px; border-radius: 8px; cursor: pointer; }
+    .channel-btn.active { border: 2px solid var(--verde); background: #103420; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <a href="/" class="logo">⚽ Mundial 2026 <span class="logo-badge">PORTAL</span></a>
+  </div>
+  <nav class="header-nav">
+    <a href="/" class="nav-btn">Todos los Partidos</a>
+    <a href="/#section-live" class="nav-btn">🔴 En Vivo</a>
+    <a href="/#mexico-section" class="nav-btn">🇲🇽 México</a>
+    <a href="/" class="nav-btn">Próximos</a>
+    <a href="/" class="nav-btn">Terminados</a>
+  </nav>
+</header>
+
+<div class="match-title-bar">
+  <a href="/" class="back-link">← Volver</a>
+  <h2 class="match-heading">{{ match.home }} vs {{ match.away }}</h2>
+</div>
+
+<div class="container">
+  <div class="stream-player">
+    <iframe id="live-player" 
+            title="Transmisión en vivo: {{ match.home }} vs {{ match.away }}"
+            src="{{ stream_links[0].url }}" 
+            sandbox="allow-scripts allow-forms allow-same-origin allow-presentation"
+            allowfullscreen></iframe>
+  </div>
+
+  <div class="scoreboard">
+    <span class="status-pill" id="live-status">🔴 Cargando...</span>
+    <div class="score-container">
+        <span>{{ match.home }}</span>
+        <span class="score" id="score-h">0</span> : <span class="score" id="score-a">0</span>
+        <span>{{ match.away }}</span>
+    </div>
+  </div>
+
+  <h3>Seleccionar canal:</h3>
+  <div class="channels-grid">
+    {% for link in stream_links %}
+    <button class="channel-btn {% if loop.first %}active{% endif %}" onclick="changeChannel('{{ link.url }}', this)">
+      <strong>{{ link.name }}</strong><br>
+      <small>{{ link.quality }}</small>
+    </button>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+// Cambio de canal dinámico
+function changeChannel(url, btn) {
+  const player = document.getElementById('live-player');
+  player.src = url;
+  document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+const MATCH_ID = {{ match.id }};
+
+// Lógica de sincronización exacta
+function syncScoreboard() {
+    fetch('/api/status/' + MATCH_ID + '?t=' + new Date().getTime()) // El ?t= evita que el navegador use datos viejos (caché)
+    .then(res => res.json())
+    .then(data => {
+        // Actualizar el diseño según los datos
+        document.getElementById('score-h').innerText = data.score_home;
+        document.getElementById('score-a').innerText = data.score_away;
+
+        const statusEl = document.querySelector('.status-pill');
+        if (data.status === 'finished') {
+            statusEl.innerText = '✅ Terminado';
+            statusEl.className = 'status-pill finished';
+        } else if (data.status === 'live') {
+            statusEl.innerText = `🔴 Min ${data.minute}'`;
+            statusEl.className = 'status-pill live';
+        } else {
+            statusEl.innerText = `⏰ ${data.minute || ''}`;
+            statusEl.className = 'status-pill upcoming';
+        }
+    });
+}
+setInterval(syncScoreboard, 2000);
+syncScoreboard();
+</script>
+
+
+</body>
+</html>
