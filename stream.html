@@ -35,17 +35,42 @@
     .stream-player { background: black; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; position: relative; }
     iframe { width: 100%; height: 100%; border: none; }
     
+    .iframe-hidden { display: none; }
+    
     .scoreboard { background: var(--gris-panel); padding: 20px; border-radius: 12px; text-align: center; margin-top: 20px; border: 1px solid var(--gris-borde); }
-    .status-pill { background: #3d1a1a; color: #ff6b6b; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; }
+    .status-pill { background: #3d1a1a; color: #ff6b6b; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; display: inline-block; }
     .status-pill.live { background: #3d1a1a; color: #ff6b6b; }
     .status-pill.finished { background: #1a2b3d; color: #8ab4f8; }
     .status-pill.upcoming { background: #1a3d24; color: #6bdb94; }
     .score-container { display: flex; justify-content: center; align-items: center; gap: 30px; font-size: 40px; font-weight: 800; margin-top: 15px; color: var(--negro); }
+    .score-number { font-size: 48px; font-weight: 800; min-width: 60px; text-align: center; }
+    .team-block { text-align: center; min-width: 120px; }
+    .team-flag img { height: 40px; width: 60px; border-radius: 4px; object-fit: cover; margin-bottom: 8px; }
+    .team-name { font-size: 14px; font-weight: 600; }
     
     h3 { color: var(--negro); margin: 0; padding-top: 4px; }
-    .channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 20px; }
-    .channel-btn { background: var(--gris-panel); color: var(--negro); border: 1px solid var(--gris-borde); padding: 10px; border-radius: 8px; cursor: pointer; }
+    .channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 20px; margin-bottom: 30px; }
+    .channel-btn { background: var(--gris-panel); color: var(--negro); border: 1px solid var(--gris-borde); padding: 10px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+    .channel-btn:hover { border-color: var(--verde); background: #103420; }
     .channel-btn.active { border: 2px solid var(--verde); background: #103420; }
+    
+    .aviso {
+      background: #1a3d24;
+      border-left: 4px solid var(--verde);
+      padding: 8px 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #6bdb94;
+      text-align: center;
+    }
+    
+    .debug {
+      font-size: 10px;
+      color: #666;
+      text-align: center;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -69,27 +94,53 @@
 </div>
 
 <div class="container">
-  <div class="stream-player">
-    <iframe id="live-player" 
-            title="Transmisión en vivo: {{ match.home }} vs {{ match.away }}"
-            src="{{ stream_links[0].url }}" 
+  <div class="stream-player" id="stream-player-container">
+    <!-- IFRAME PARA CANALES NORMALES (CON SANDBOX - BLOQUEA ANUNCIOS) -->
+    <iframe id="iframe-normal" 
+            title="Transmisión en vivo - Canales normales"
             sandbox="allow-scripts allow-forms allow-same-origin allow-presentation"
             allowfullscreen></iframe>
+    
+    <!-- IFRAME PARA CANAL 5 (SIN SANDBOX - PERMITE ANUNCIOS PERO FUNCIONA) -->
+    <iframe id="iframe-problematico" 
+            title="Transmisión en vivo - Canal 5"
+            allowfullscreen
+            class="iframe-hidden"></iframe>
+  </div>
+  
+  <div class="aviso">
+    💡 <strong>Canal 5:</strong> Al darle play puede abrir una ventana de anuncio. 
+    Ciérrala y vuelve a darle play. Es normal en este tipo de sitios gratuitos.
   </div>
 
   <div class="scoreboard">
-    <span class="status-pill" id="live-status">🔴 Cargando...</span>
+    <div id="status-pill" class="status-pill live">🔴 Cargando...</div>
     <div class="score-container">
-        <span>{{ match.home }}</span>
-        <span class="score" id="score-h">0</span> : <span class="score" id="score-a">0</span>
-        <span>{{ match.away }}</span>
+      <div class="team-block">
+        <div class="team-flag"><img src="{{ match.flag_home }}" alt="" onerror="this.src='https://placehold.co/60x40?text=🏳'"></div>
+        <div class="team-name">{{ match.home }}</div>
+      </div>
+      <div class="score-number" id="score-home">0</div>
+      <div class="score-number" style="font-size: 32px;">:</div>
+      <div class="score-number" id="score-away">0</div>
+      <div class="team-block">
+        <div class="team-flag"><img src="{{ match.flag_away }}" alt="" onerror="this.src='https://placehold.co/60x40?text=🏳'"></div>
+        <div class="team-name">{{ match.away }}</div>
+      </div>
     </div>
   </div>
+  
+  <div class="debug" id="debug-info">
+    Conectando al servidor...
+  </div>
 
-  <h3>Seleccionar canal:</h3>
+  <h3>📺 Seleccionar canal:</h3>
   <div class="channels-grid">
     {% for link in stream_links %}
-    <button class="channel-btn {% if loop.first %}active{% endif %}" onclick="changeChannel('{{ link.url }}', this)">
+    <button class="channel-btn {% if loop.first %}active{% endif %}" 
+            data-url="{{ link.url }}"
+            data-name="{{ link.name }}"
+            onclick="cambiarCanal('{{ link.url }}', '{{ link.name }}', this)">
       <strong>{{ link.name }}</strong><br>
       <small>{{ link.quality }}</small>
     </button>
@@ -98,42 +149,110 @@
 </div>
 
 <script>
-// Cambio de canal dinámico
-function changeChannel(url, btn) {
-  const player = document.getElementById('live-player');
-  player.src = url;
+const MATCH_ID = {{ match.id }};
+console.log('ID del partido:', MATCH_ID);
+
+const iframeNormal = document.getElementById('iframe-normal');
+const iframeProblematico = document.getElementById('iframe-problematico');
+const debugInfo = document.getElementById('debug-info');
+
+function esCanalProblematico(url, nombre) {
+  return url.includes('streamtpday1.xyz') || 
+         url.includes('stream196tp') || 
+         nombre === 'Canal 5';
+}
+
+function cambiarCanal(url, nombre, btn) {
+  debugInfo.innerHTML = `Cambiando a: ${nombre}...`;
+  
+  if (esCanalProblematico(url, nombre)) {
+    iframeProblematico.src = url;
+    iframeProblematico.classList.remove('iframe-hidden');
+    iframeNormal.classList.add('iframe-hidden');
+    iframeNormal.src = '';
+    console.log('Canal 5 - sin sandbox');
+  } else {
+    iframeNormal.src = url;
+    iframeNormal.classList.remove('iframe-hidden');
+    iframeProblematico.classList.add('iframe-hidden');
+    iframeProblematico.src = '';
+    console.log('Canal normal - con sandbox');
+  }
+  
   document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  
+  setTimeout(() => {
+    debugInfo.innerHTML = `Canal actual: ${nombre}`;
+  }, 1000);
 }
 
-const MATCH_ID = {{ match.id }};
-
-// Lógica de sincronización exacta
+// Función para actualizar el marcador
 function syncScoreboard() {
-    fetch('/api/status/' + MATCH_ID + '?t=' + new Date().getTime()) // El ?t= evita que el navegador use datos viejos (caché)
-    .then(res => res.json())
+  fetch('/api/status/' + MATCH_ID + '?t=' + new Date().getTime())
+    .then(res => {
+      if (!res.ok) throw new Error('Error HTTP: ' + res.status);
+      return res.json();
+    })
     .then(data => {
-        // Actualizar el diseño según los datos
-        document.getElementById('score-h').innerText = data.score_home;
-        document.getElementById('score-a').innerText = data.score_away;
-
-        const statusEl = document.querySelector('.status-pill');
-        if (data.status === 'finished') {
-            statusEl.innerText = '✅ Terminado';
-            statusEl.className = 'status-pill finished';
-        } else if (data.status === 'live') {
-            statusEl.innerText = `🔴 Min ${data.minute}'`;
-            statusEl.className = 'status-pill live';
-        } else {
-            statusEl.innerText = `⏰ ${data.minute || ''}`;
-            statusEl.className = 'status-pill upcoming';
-        }
+      console.log('Datos recibidos:', data);
+      
+      // Actualizar marcador
+      document.getElementById('score-home').innerText = data.score_home ?? 0;
+      document.getElementById('score-away').innerText = data.score_away ?? 0;
+      
+      // Actualizar estado
+      const statusEl = document.getElementById('status-pill');
+      if (data.status === 'finished') {
+        statusEl.innerText = '✅ Terminado';
+        statusEl.className = 'status-pill finished';
+      } else if (data.status === 'live') {
+        statusEl.innerText = '🔴 EN VIVO';
+        statusEl.className = 'status-pill live';
+      } else if (data.status === 'upcoming_soon') {
+        statusEl.innerText = '⏰ PRÓXIMAMENTE';
+        statusEl.className = 'status-pill upcoming_soon';
+      } else {
+        statusEl.innerText = '⏰ Próximo partido';
+        statusEl.className = 'status-pill upcoming';
+      }
+      
+      debugInfo.innerHTML = `✅ Actualizado: ${data.score_home ?? 0} - ${data.score_away ?? 0} (${data.status})`;
+    })
+    .catch(err => {
+      console.error('Error fetching score:', err);
+      debugInfo.innerHTML = `❌ Error: ${err.message} - Verifica que el servidor Flask esté corriendo`;
     });
 }
+
+// Inicializar el primer canal
+window.addEventListener('DOMContentLoaded', function() {
+  const primerBoton = document.querySelector('.channel-btn.active');
+  if (primerBoton) {
+    const primeraUrl = primerBoton.getAttribute('data-url');
+    const primerNombre = primerBoton.getAttribute('data-name');
+    if (primeraUrl) {
+      cambiarCanal(primeraUrl, primerNombre, primerBoton);
+    }
+  }
+  
+  // Probar conexión con la API
+  fetch('/api/status/' + MATCH_ID + '?t=' + new Date().getTime())
+    .then(res => res.json())
+    .then(data => {
+      console.log('Conexión exitosa con la API');
+      debugInfo.innerHTML = `✅ Conectado. Resultado actual: ${data.score_home ?? 0} - ${data.score_away ?? 0}`;
+    })
+    .catch(err => {
+      console.error('No se pudo conectar con la API');
+      debugInfo.innerHTML = '❌ No se pudo conectar con el servidor. ¿Flask está corriendo?';
+    });
+});
+
+// Actualizar cada 2 segundos
 setInterval(syncScoreboard, 2000);
 syncScoreboard();
 </script>
-
 
 </body>
 </html>
