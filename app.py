@@ -5,7 +5,6 @@ import requests
 import threading
 import time
 import pytz
-import threading
 
 app = Flask(__name__, template_folder='.', static_folder='.')
 
@@ -357,22 +356,6 @@ def update_score():
 def sync_now():
     update_matches_from_api()
     return jsonify({"success": True, "message": "Sincronización forzada completada"})
-
-def keep_alive():
-    """Mantiene la aplicación activa haciendo peticiones cada 10 minutos"""
-    while True:
-        time.sleep(600)  # 10 minutos
-        try:
-            requests.get('https://tu-app.onrender.com/api/status')
-            print("🟢 Keep-alive ping enviado")
-        except:
-            print("🔴 Error en keep-alive")
-
-# Iniciar hilo de keep-alive
-if not os.environ.get('RENDER'):
-    # Solo en Render, no localmente
-    keep_alive_thread = threading.Thread(target=keep_alive, daemon=True)
-    keep_alive_thread.start()
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
