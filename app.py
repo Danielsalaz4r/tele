@@ -30,7 +30,6 @@ STREAM_LINKS = [
     {"name": "TyC Sports", "quality": "ES • HD", "url": "https://la18hd.com/vivo/canales.php?stream=tycsports"},
     {"name": "Telefe", "quality": "• HD", "url": "https://la18hd.com/vivo/canales.php?stream=telefe"},
     {"name": "Caracol TV", "quality": "• HD", "url": "https://la18hd.com/vivo/canales.php?stream=caracol"},
-    {"name": "Canal 5", "quality": "• HD", "url": "https://la18hd.com/vivo/canales.php?stream=canal5"},
     {"name": "DSports Plus", "quality": "• HD", "url": "https://la18hd.com/vivo/canales.php?stream=dsportsplus"},
     {"name": "ESPN 6", "quality": "• HD", "url": "https://la18hd.com/vivo/canales.php?stream=espn6"},
     {"name": "Fox Deportes", "quality": "• HD", "url": "https://la18hd.com/vivo/canales.php?stream=foxdeportes"},
@@ -43,10 +42,11 @@ STREAM_LINKS = [
 ]
 
 # ============================================================
-# TU MATCHES COMPLETO (copia y pega tu MATCHES aquí)
+# DATOS COMPLETOS DEL MUNDIAL 2026 - TODOS LOS GRUPOS (A-L)
+# Basado en sorteo oficial de la FIFA (5 diciembre 2025)
 # ============================================================
 MATCHES = [
-    # Grupo A
+    # ==================== GRUPO A (México, Sudáfrica, Corea del Sur, República Checa) ====================
     {"id": 1, "group": "A", "status": "finished", "home": "México", "away": "Sudáfrica", "city": "CDMX", "score_home": 2, "score_away": 0, "date": "2026-06-11", "time_mex": "13:00", "is_mexico": True, "stadium": "Estadio Azteca", "flag_home": "https://flagcdn.com/w320/mx.png", "flag_away": "https://flagcdn.com/w320/za.png"},
     {"id": 2, "group": "A", "status": "finished", "home": "Corea del Sur", "away": "República Checa", "city": "Guadalajara", "score_home": 2, "score_away": 1, "date": "2026-06-11", "time_mex": "20:00", "is_mexico": False, "stadium": "Estadio Akron", "flag_home": "https://flagcdn.com/w320/kr.png", "flag_away": "https://flagcdn.com/w320/cz.png"},
     {"id": 3, "group": "A", "status": "upcoming", "home": "República Checa", "away": "Sudáfrica", "city": "Atlanta", "score_home": None, "score_away": None, "date": "2026-06-18", "time_mex": "10:00", "is_mexico": False, "stadium": "Mercedes-Benz Stadium", "flag_home": "https://flagcdn.com/w320/cz.png", "flag_away": "https://flagcdn.com/w320/za.png"},
@@ -54,7 +54,7 @@ MATCHES = [
     {"id": 5, "group": "A", "status": "upcoming", "home": "República Checa", "away": "México", "city": "CDMX", "score_home": None, "score_away": None, "date": "2026-06-24", "time_mex": "19:00", "is_mexico": True, "stadium": "Estadio Azteca", "flag_home": "https://flagcdn.com/w320/cz.png", "flag_away": "https://flagcdn.com/w320/mx.png"},
     {"id": 6, "group": "A", "status": "upcoming", "home": "Sudáfrica", "away": "Corea del Sur", "city": "Monterrey", "score_home": None, "score_away": None, "date": "2026-06-24", "time_mex": "19:00", "is_mexico": False, "stadium": "Estadio BBVA", "flag_home": "https://flagcdn.com/w320/za.png", "flag_away": "https://flagcdn.com/w320/kr.png"},
 
-    # Grupo B
+    # ==================== GRUPO B (Canadá, Bosnia y Herzegovina, Catar, Suiza) ====================
     {"id": 7, "group": "B", "status": "finished", "home": "Canadá", "away": "Bosnia y Herzegovina", "city": "Toronto", "score_home": 1, "score_away": 1, "date": "2026-06-12", "time_mex": "13:00", "is_mexico": False, "stadium": "BMO Field", "flag_home": "https://flagcdn.com/w320/ca.png", "flag_away": "https://flagcdn.com/w320/ba.png"},
     {"id": 8, "group": "B", "status": "finished", "home": "Catar", "away": "Suiza", "city": "San Francisco", "score_home": 1, "score_away": 1, "date": "2026-06-13", "time_mex": "13:00", "is_mexico": False, "stadium": "Levi's Stadium", "flag_home": "https://flagcdn.com/w320/qa.png", "flag_away": "https://flagcdn.com/w320/ch.png"},
     {"id": 9, "group": "B", "status": "upcoming", "home": "Suiza", "away": "Bosnia y Herzegovina", "city": "Los Ángeles", "score_home": None, "score_away": None, "date": "2026-06-18", "time_mex": "13:00", "is_mexico": False, "stadium": "SoFi Stadium", "flag_home": "https://flagcdn.com/w320/ch.png", "flag_away": "https://flagcdn.com/w320/ba.png"},
@@ -62,15 +62,15 @@ MATCHES = [
     {"id": 11, "group": "B", "status": "upcoming", "home": "Suiza", "away": "Canadá", "city": "Vancouver", "score_home": None, "score_away": None, "date": "2026-06-24", "time_mex": "13:00", "is_mexico": False, "stadium": "BC Place", "flag_home": "https://flagcdn.com/w320/ch.png", "flag_away": "https://flagcdn.com/w320/ca.png"},
     {"id": 12, "group": "B", "status": "upcoming", "home": "Bosnia y Herzegovina", "away": "Catar", "city": "Seattle", "score_home": None, "score_away": None, "date": "2026-06-24", "time_mex": "13:00", "is_mexico": False, "stadium": "Lumen Field", "flag_home": "https://flagcdn.com/w320/ba.png", "flag_away": "https://flagcdn.com/w320/qa.png"},
 
-    # Grupo C
+    # ==================== GRUPO C (Brasil, Marruecos, Haití, Escocia) ====================
     {"id": 13, "group": "C", "status": "finished", "home": "Brasil", "away": "Marruecos", "city": "Nueva Jersey", "score_home": 1, "score_away": 1, "date": "2026-06-13", "time_mex": "16:00", "is_mexico": False, "stadium": "MetLife Stadium", "flag_home": "https://flagcdn.com/w320/br.png", "flag_away": "https://flagcdn.com/w320/ma.png"},
     {"id": 14, "group": "C", "status": "finished", "home": "Haití", "away": "Escocia", "city": "Boston", "score_home": 0, "score_away": 1, "date": "2026-06-13", "time_mex": "19:00", "is_mexico": False, "stadium": "Gillette Stadium", "flag_home": "https://flagcdn.com/w320/ht.png", "flag_away": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/320px-Flag_of_Scotland.svg.png"},
-    {"id": 15, "group": "C", "status": "live", "home": "Alemania", "away": "Curazao", "city": "Houston", "score_home": 4, "score_away": 1, "date": "2026-06-14", "time_mex": "11:00", "is_mexico": False, "stadium": "NRG Stadium", "flag_home": "https://flagcdn.com/w320/de.png", "flag_away": "https://flagcdn.com/w320/cw.png"},
-    {"id": 16, "group": "C", "status": "upcoming", "home": "Marruecos", "away": "Haití", "city": "Filadelfia", "score_home": None, "score_away": None, "date": "2026-06-19", "time_mex": "16:00", "is_mexico": False, "stadium": "Lincoln Financial Field", "flag_home": "https://flagcdn.com/w320/ma.png", "flag_away": "https://flagcdn.com/w320/ht.png"},
+    {"id": 15, "group": "C", "status": "upcoming", "home": "Escocia", "away": "Marruecos", "city": "Boston", "score_home": None, "score_away": None, "date": "2026-06-19", "time_mex": "16:00", "is_mexico": False, "stadium": "Gillette Stadium", "flag_home": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/320px-Flag_of_Scotland.svg.png", "flag_away": "https://flagcdn.com/w320/ma.png"},
+    {"id": 16, "group": "C", "status": "upcoming", "home": "Brasil", "away": "Haití", "city": "Filadelfia", "score_home": None, "score_away": None, "date": "2026-06-19", "time_mex": "18:30", "is_mexico": False, "stadium": "Lincoln Financial Field", "flag_home": "https://flagcdn.com/w320/br.png", "flag_away": "https://flagcdn.com/w320/ht.png"},
     {"id": 17, "group": "C", "status": "upcoming", "home": "Escocia", "away": "Brasil", "city": "Miami", "score_home": None, "score_away": None, "date": "2026-06-24", "time_mex": "16:00", "is_mexico": False, "stadium": "Hard Rock Stadium", "flag_home": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/320px-Flag_of_Scotland.svg.png", "flag_away": "https://flagcdn.com/w320/br.png"},
     {"id": 18, "group": "C", "status": "upcoming", "home": "Marruecos", "away": "Haití", "city": "Atlanta", "score_home": None, "score_away": None, "date": "2026-06-24", "time_mex": "16:00", "is_mexico": False, "stadium": "Mercedes-Benz Stadium", "flag_home": "https://flagcdn.com/w320/ma.png", "flag_away": "https://flagcdn.com/w320/ht.png"},
 
-    # Grupo D
+    # ==================== GRUPO D (Estados Unidos, Paraguay, Australia, Turquía) ====================
     {"id": 19, "group": "D", "status": "finished", "home": "Estados Unidos", "away": "Paraguay", "city": "Los Ángeles", "score_home": 4, "score_away": 1, "date": "2026-06-12", "time_mex": "20:00", "is_mexico": False, "stadium": "SoFi Stadium", "flag_home": "https://flagcdn.com/w320/us.png", "flag_away": "https://flagcdn.com/w320/py.png"},
     {"id": 20, "group": "D", "status": "finished", "home": "Australia", "away": "Turquía", "city": "Vancouver", "score_home": 2, "score_away": 0, "date": "2026-06-13", "time_mex": "22:00", "is_mexico": False, "stadium": "BC Place", "flag_home": "https://flagcdn.com/w320/au.png", "flag_away": "https://flagcdn.com/w320/tr.png"},
     {"id": 21, "group": "D", "status": "upcoming", "home": "Estados Unidos", "away": "Australia", "city": "Seattle", "score_home": None, "score_away": None, "date": "2026-06-19", "time_mex": "14:00", "is_mexico": False, "stadium": "Lumen Field", "flag_home": "https://flagcdn.com/w320/us.png", "flag_away": "https://flagcdn.com/w320/au.png"},
@@ -78,68 +78,69 @@ MATCHES = [
     {"id": 23, "group": "D", "status": "upcoming", "home": "Turquía", "away": "Estados Unidos", "city": "Los Ángeles", "score_home": None, "score_away": None, "date": "2026-06-25", "time_mex": "20:00", "is_mexico": False, "stadium": "SoFi Stadium", "flag_home": "https://flagcdn.com/w320/tr.png", "flag_away": "https://flagcdn.com/w320/us.png"},
     {"id": 24, "group": "D", "status": "upcoming", "home": "Paraguay", "away": "Australia", "city": "San Francisco", "score_home": None, "score_away": None, "date": "2026-06-25", "time_mex": "20:00", "is_mexico": False, "stadium": "Levi's Stadium", "flag_home": "https://flagcdn.com/w320/py.png", "flag_away": "https://flagcdn.com/w320/au.png"},
 
-    # Grupo E
-    {"id": 25, "group": "E", "status": "upcoming", "home": "Países Bajos", "away": "Japón", "city": "Dallas", "score_home": None, "score_away": None, "date": "2026-06-14", "time_mex": "14:00", "is_mexico": False, "stadium": "AT&T Stadium", "flag_home": "https://flagcdn.com/w320/nl.png", "flag_away": "https://flagcdn.com/w320/jp.png"},
-    {"id": 26, "group": "E", "status": "upcoming", "home": "Costa de Marfil", "away": "Ecuador", "city": "Filadelfia", "score_home": None, "score_away": None, "date": "2026-06-14", "time_mex": "17:00", "is_mexico": False, "stadium": "Lincoln Financial Field", "flag_home": "https://flagcdn.com/w320/ci.png", "flag_away": "https://flagcdn.com/w320/ec.png"},
-    {"id": 27, "group": "E", "status": "upcoming", "home": "Suecia", "away": "Túnez", "city": "Monterrey", "score_home": None, "score_away": None, "date": "2026-06-14", "time_mex": "20:00", "is_mexico": False, "stadium": "Estadio BBVA", "flag_home": "https://flagcdn.com/w320/se.png", "flag_away": "https://flagcdn.com/w320/tn.png"},
-    {"id": 28, "group": "E", "status": "upcoming", "home": "Alemania", "away": "Costa de Marfil", "city": "Toronto", "score_home": None, "score_away": None, "date": "2026-06-20", "time_mex": "14:00", "is_mexico": False, "stadium": "BMO Field", "flag_home": "https://flagcdn.com/w320/de.png", "flag_away": "https://flagcdn.com/w320/ci.png"},
-    {"id": 29, "group": "E", "status": "upcoming", "home": "Ecuador", "away": "Curazao", "city": "Kansas City", "score_home": None, "score_away": None, "date": "2026-06-20", "time_mex": "18:00", "is_mexico": False, "stadium": "Arrowhead Stadium", "flag_home": "https://flagcdn.com/w320/ec.png", "flag_away": "https://flagcdn.com/w320/cw.png"},
-    {"id": 30, "group": "E", "status": "upcoming", "home": "Países Bajos", "away": "Suecia", "city": "Houston", "score_home": None, "score_away": None, "date": "2026-06-20", "time_mex": "11:00", "is_mexico": False, "stadium": "NRG Stadium", "flag_home": "https://flagcdn.com/w320/nl.png", "flag_away": "https://flagcdn.com/w320/se.png"},
-    {"id": 31, "group": "E", "status": "upcoming", "home": "Ecuador", "away": "Alemania", "city": "Nueva Jersey", "score_home": None, "score_away": None, "date": "2026-06-25", "time_mex": "14:00", "is_mexico": False, "stadium": "MetLife Stadium", "flag_home": "https://flagcdn.com/w320/ec.png", "flag_away": "https://flagcdn.com/w320/de.png"},
-    {"id": 32, "group": "E", "status": "upcoming", "home": "Curazao", "away": "Costa de Marfil", "city": "Filadelfia", "score_home": None, "score_away": None, "date": "2026-06-25", "time_mex": "14:00", "is_mexico": False, "stadium": "Lincoln Financial Field", "flag_home": "https://flagcdn.com/w320/cw.png", "flag_away": "https://flagcdn.com/w320/ci.png"},
+    # ==================== GRUPO E (Alemania, Curazao, Costa de Marfil, Ecuador) ====================
+    {"id": 25, "group": "E", "status": "finished", "home": "Alemania", "away": "Curazao", "city": "Houston", "score_home": 7, "score_away": 1, "date": "2026-06-14", "time_mex": "11:00", "is_mexico": False, "stadium": "NRG Stadium", "flag_home": "https://flagcdn.com/w320/de.png", "flag_away": "https://flagcdn.com/w320/cw.png"},
+    {"id": 26, "group": "E", "status": "finished", "home": "Costa de Marfil", "away": "Ecuador", "city": "Filadelfia", "score_home": 1, "score_away": 0, "date": "2026-06-14", "time_mex": "17:00", "is_mexico": False, "stadium": "Lincoln Financial Field", "flag_home": "https://flagcdn.com/w320/ci.png", "flag_away": "https://flagcdn.com/w320/ec.png"},
+    {"id": 27, "group": "E", "status": "upcoming", "home": "Alemania", "away": "Costa de Marfil", "city": "Toronto", "score_home": None, "score_away": None, "date": "2026-06-20", "time_mex": "14:00", "is_mexico": False, "stadium": "BMO Field", "flag_home": "https://flagcdn.com/w320/de.png", "flag_away": "https://flagcdn.com/w320/ci.png"},
+    {"id": 28, "group": "E", "status": "upcoming", "home": "Ecuador", "away": "Curazao", "city": "Kansas City", "score_home": None, "score_away": None, "date": "2026-06-20", "time_mex": "18:00", "is_mexico": False, "stadium": "Arrowhead Stadium", "flag_home": "https://flagcdn.com/w320/ec.png", "flag_away": "https://flagcdn.com/w320/cw.png"},
+    {"id": 29, "group": "E", "status": "upcoming", "home": "Curazao", "away": "Costa de Marfil", "city": "Filadelfia", "score_home": None, "score_away": None, "date": "2026-06-25", "time_mex": "14:00", "is_mexico": False, "stadium": "Lincoln Financial Field", "flag_home": "https://flagcdn.com/w320/cw.png", "flag_away": "https://flagcdn.com/w320/ci.png"},
+    {"id": 30, "group": "E", "status": "upcoming", "home": "Ecuador", "away": "Alemania", "city": "Nueva Jersey", "score_home": None, "score_away": None, "date": "2026-06-25", "time_mex": "14:00", "is_mexico": False, "stadium": "MetLife Stadium", "flag_home": "https://flagcdn.com/w320/ec.png", "flag_away": "https://flagcdn.com/w320/de.png"},
 
-    # Grupo F
-    {"id": 33, "group": "F", "status": "upcoming", "home": "Túnez", "away": "Japón", "city": "Monterrey", "score_home": None, "score_away": None, "date": "2026-06-20", "time_mex": "22:00", "is_mexico": False, "stadium": "Estadio BBVA", "flag_home": "https://flagcdn.com/w320/tn.png", "flag_away": "https://flagcdn.com/w320/jp.png"},
-    {"id": 34, "group": "F", "status": "upcoming", "home": "Japón", "away": "Suecia", "city": "Dallas", "score_home": None, "score_away": None, "date": "2026-06-25", "time_mex": "17:00", "is_mexico": False, "stadium": "AT&T Stadium", "flag_home": "https://flagcdn.com/w320/jp.png", "flag_away": "https://flagcdn.com/w320/se.png"},
-    {"id": 35, "group": "F", "status": "upcoming", "home": "Túnez", "away": "Países Bajos", "city": "Kansas City", "score_home": None, "score_away": None, "date": "2026-06-25", "time_mex": "17:00", "is_mexico": False, "stadium": "Arrowhead Stadium", "flag_home": "https://flagcdn.com/w320/tn.png", "flag_away": "https://flagcdn.com/w320/nl.png"},
+    # ==================== GRUPO F (Países Bajos, Japón, Suecia, Túnez) ====================
+    {"id": 31, "group": "F", "status": "finished", "home": "Países Bajos", "away": "Japón", "city": "Dallas", "score_home": 2, "score_away": 2, "date": "2026-06-14", "time_mex": "14:00", "is_mexico": False, "stadium": "AT&T Stadium", "flag_home": "https://flagcdn.com/w320/nl.png", "flag_away": "https://flagcdn.com/w320/jp.png"},
+    {"id": 32, "group": "F", "status": "finished", "home": "Suecia", "away": "Túnez", "city": "Monterrey", "score_home": 5, "score_away": 1, "date": "2026-06-14", "time_mex": "20:00", "is_mexico": False, "stadium": "Estadio BBVA", "flag_home": "https://flagcdn.com/w320/se.png", "flag_away": "https://flagcdn.com/w320/tn.png"},
+    {"id": 33, "group": "F", "status": "upcoming", "home": "Países Bajos", "away": "Suecia", "city": "Houston", "score_home": None, "score_away": None, "date": "2026-06-20", "time_mex": "11:00", "is_mexico": False, "stadium": "NRG Stadium", "flag_home": "https://flagcdn.com/w320/nl.png", "flag_away": "https://flagcdn.com/w320/se.png"},
+    {"id": 34, "group": "F", "status": "upcoming", "home": "Túnez", "away": "Japón", "city": "Monterrey", "score_home": None, "score_away": None, "date": "2026-06-20", "time_mex": "22:00", "is_mexico": False, "stadium": "Estadio BBVA", "flag_home": "https://flagcdn.com/w320/tn.png", "flag_away": "https://flagcdn.com/w320/jp.png"},
+    {"id": 35, "group": "F", "status": "upcoming", "home": "Japón", "away": "Suecia", "city": "Dallas", "score_home": None, "score_away": None, "date": "2026-06-25", "time_mex": "17:00", "is_mexico": False, "stadium": "AT&T Stadium", "flag_home": "https://flagcdn.com/w320/jp.png", "flag_away": "https://flagcdn.com/w320/se.png"},
+    {"id": 36, "group": "F", "status": "upcoming", "home": "Túnez", "away": "Países Bajos", "city": "Kansas City", "score_home": None, "score_away": None, "date": "2026-06-25", "time_mex": "17:00", "is_mexico": False, "stadium": "Arrowhead Stadium", "flag_home": "https://flagcdn.com/w320/tn.png", "flag_away": "https://flagcdn.com/w320/nl.png"},
 
-    # Grupo G
-    {"id": 36, "group": "G", "status": "upcoming", "home": "Bélgica", "away": "Egipto", "city": "Seattle", "score_home": None, "score_away": None, "date": "2026-06-15", "time_mex": "13:00", "is_mexico": False, "stadium": "Lumen Field", "flag_home": "https://flagcdn.com/w320/be.png", "flag_away": "https://flagcdn.com/w320/eg.png"},
-    {"id": 37, "group": "G", "status": "upcoming", "home": "Irán", "away": "Nueva Zelanda", "city": "Los Ángeles", "score_home": None, "score_away": None, "date": "2026-06-15", "time_mex": "19:00", "is_mexico": False, "stadium": "SoFi Stadium", "flag_home": "https://flagcdn.com/w320/ir.png", "flag_away": "https://flagcdn.com/w320/nz.png"},
-    {"id": 38, "group": "G", "status": "upcoming", "home": "Bélgica", "away": "Irán", "city": "Los Ángeles", "score_home": None, "score_away": None, "date": "2026-06-21", "time_mex": "13:00", "is_mexico": False, "stadium": "SoFi Stadium", "flag_home": "https://flagcdn.com/w320/be.png", "flag_away": "https://flagcdn.com/w320/ir.png"},
-    {"id": 39, "group": "G", "status": "upcoming", "home": "Nueva Zelanda", "away": "Egipto", "city": "Vancouver", "score_home": None, "score_away": None, "date": "2026-06-21", "time_mex": "19:00", "is_mexico": False, "stadium": "BC Place", "flag_home": "https://flagcdn.com/w320/nz.png", "flag_away": "https://flagcdn.com/w320/eg.png"},
-    {"id": 40, "group": "G", "status": "upcoming", "home": "Egipto", "away": "Irán", "city": "Seattle", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "21:00", "is_mexico": False, "stadium": "Lumen Field", "flag_home": "https://flagcdn.com/w320/eg.png", "flag_away": "https://flagcdn.com/w320/ir.png"},
-    {"id": 41, "group": "G", "status": "upcoming", "home": "Nueva Zelanda", "away": "Bélgica", "city": "Vancouver", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "21:00", "is_mexico": False, "stadium": "BC Place", "flag_home": "https://flagcdn.com/w320/nz.png", "flag_away": "https://flagcdn.com/w320/be.png"},
+    # ==================== GRUPO G (Bélgica, Egipto, Irán, Nueva Zelanda) ====================
+    {"id": 37, "group": "G", "status": "upcoming", "home": "Bélgica", "away": "Egipto", "city": "Seattle", "score_home": None, "score_away": None, "date": "2026-06-15", "time_mex": "13:00", "is_mexico": False, "stadium": "Lumen Field", "flag_home": "https://flagcdn.com/w320/be.png", "flag_away": "https://flagcdn.com/w320/eg.png"},
+    {"id": 38, "group": "G", "status": "upcoming", "home": "Irán", "away": "Nueva Zelanda", "city": "Los Ángeles", "score_home": None, "score_away": None, "date": "2026-06-15", "time_mex": "19:00", "is_mexico": False, "stadium": "SoFi Stadium", "flag_home": "https://flagcdn.com/w320/ir.png", "flag_away": "https://flagcdn.com/w320/nz.png"},
+    {"id": 39, "group": "G", "status": "upcoming", "home": "Bélgica", "away": "Irán", "city": "Los Ángeles", "score_home": None, "score_away": None, "date": "2026-06-21", "time_mex": "13:00", "is_mexico": False, "stadium": "SoFi Stadium", "flag_home": "https://flagcdn.com/w320/be.png", "flag_away": "https://flagcdn.com/w320/ir.png"},
+    {"id": 40, "group": "G", "status": "upcoming", "home": "Nueva Zelanda", "away": "Egipto", "city": "Vancouver", "score_home": None, "score_away": None, "date": "2026-06-21", "time_mex": "19:00", "is_mexico": False, "stadium": "BC Place", "flag_home": "https://flagcdn.com/w320/nz.png", "flag_away": "https://flagcdn.com/w320/eg.png"},
+    {"id": 41, "group": "G", "status": "upcoming", "home": "Egipto", "away": "Irán", "city": "Seattle", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "21:00", "is_mexico": False, "stadium": "Lumen Field", "flag_home": "https://flagcdn.com/w320/eg.png", "flag_away": "https://flagcdn.com/w320/ir.png"},
+    {"id": 42, "group": "G", "status": "upcoming", "home": "Nueva Zelanda", "away": "Bélgica", "city": "Vancouver", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "21:00", "is_mexico": False, "stadium": "BC Place", "flag_home": "https://flagcdn.com/w320/nz.png", "flag_away": "https://flagcdn.com/w320/be.png"},
 
-    # Grupo H
-    {"id": 42, "group": "H", "status": "upcoming", "home": "España", "away": "Cabo Verde", "city": "Atlanta", "score_home": None, "score_away": None, "date": "2026-06-15", "time_mex": "10:00", "is_mexico": False, "stadium": "Mercedes-Benz Stadium", "flag_home": "https://flagcdn.com/w320/es.png", "flag_away": "https://flagcdn.com/w320/cv.png"},
-    {"id": 43, "group": "H", "status": "upcoming", "home": "Arabia Saudita", "away": "Uruguay", "city": "Miami", "score_home": None, "score_away": None, "date": "2026-06-15", "time_mex": "16:00", "is_mexico": False, "stadium": "Hard Rock Stadium", "flag_home": "https://flagcdn.com/w320/sa.png", "flag_away": "https://flagcdn.com/w320/uy.png"},
-    {"id": 44, "group": "H", "status": "upcoming", "home": "España", "away": "Arabia Saudita", "city": "Atlanta", "score_home": None, "score_away": None, "date": "2026-06-21", "time_mex": "10:00", "is_mexico": False, "stadium": "Mercedes-Benz Stadium", "flag_home": "https://flagcdn.com/w320/es.png", "flag_away": "https://flagcdn.com/w320/sa.png"},
-    {"id": 45, "group": "H", "status": "upcoming", "home": "Uruguay", "away": "Cabo Verde", "city": "Miami", "score_home": None, "score_away": None, "date": "2026-06-21", "time_mex": "16:00", "is_mexico": False, "stadium": "Hard Rock Stadium", "flag_home": "https://flagcdn.com/w320/uy.png", "flag_away": "https://flagcdn.com/w320/cv.png"},
-    {"id": 46, "group": "H", "status": "upcoming", "home": "Uruguay", "away": "España", "city": "Guadalajara", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "18:00", "is_mexico": False, "stadium": "Estadio Akron", "flag_home": "https://flagcdn.com/w320/uy.png", "flag_away": "https://flagcdn.com/w320/es.png"},
+    # ==================== GRUPO H (España, Cabo Verde, Arabia Saudita, Uruguay) ====================
+    {"id": 43, "group": "H", "status": "upcoming", "home": "España", "away": "Cabo Verde", "city": "Atlanta", "score_home": None, "score_away": None, "date": "2026-06-15", "time_mex": "10:00", "is_mexico": False, "stadium": "Mercedes-Benz Stadium", "flag_home": "https://flagcdn.com/w320/es.png", "flag_away": "https://flagcdn.com/w320/cv.png"},
+    {"id": 44, "group": "H", "status": "upcoming", "home": "Arabia Saudita", "away": "Uruguay", "city": "Miami", "score_home": None, "score_away": None, "date": "2026-06-15", "time_mex": "16:00", "is_mexico": False, "stadium": "Hard Rock Stadium", "flag_home": "https://flagcdn.com/w320/sa.png", "flag_away": "https://flagcdn.com/w320/uy.png"},
+    {"id": 45, "group": "H", "status": "upcoming", "home": "España", "away": "Arabia Saudita", "city": "Atlanta", "score_home": None, "score_away": None, "date": "2026-06-21", "time_mex": "10:00", "is_mexico": False, "stadium": "Mercedes-Benz Stadium", "flag_home": "https://flagcdn.com/w320/es.png", "flag_away": "https://flagcdn.com/w320/sa.png"},
+    {"id": 46, "group": "H", "status": "upcoming", "home": "Uruguay", "away": "Cabo Verde", "city": "Miami", "score_home": None, "score_away": None, "date": "2026-06-21", "time_mex": "16:00", "is_mexico": False, "stadium": "Hard Rock Stadium", "flag_home": "https://flagcdn.com/w320/uy.png", "flag_away": "https://flagcdn.com/w320/cv.png"},
     {"id": 47, "group": "H", "status": "upcoming", "home": "Cabo Verde", "away": "Arabia Saudita", "city": "Houston", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "18:00", "is_mexico": False, "stadium": "NRG Stadium", "flag_home": "https://flagcdn.com/w320/cv.png", "flag_away": "https://flagcdn.com/w320/sa.png"},
+    {"id": 48, "group": "H", "status": "upcoming", "home": "Uruguay", "away": "España", "city": "Guadalajara", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "18:00", "is_mexico": False, "stadium": "Estadio Akron", "flag_home": "https://flagcdn.com/w320/uy.png", "flag_away": "https://flagcdn.com/w320/es.png"},
 
-    # Grupo I
-    {"id": 48, "group": "I", "status": "upcoming", "home": "Francia", "away": "Senegal", "city": "Nueva Jersey", "score_home": None, "score_away": None, "date": "2026-06-16", "time_mex": "13:00", "is_mexico": False, "stadium": "MetLife Stadium", "flag_home": "https://flagcdn.com/w320/fr.png", "flag_away": "https://flagcdn.com/w320/sn.png"},
-    {"id": 49, "group": "I", "status": "upcoming", "home": "Irak", "away": "Noruega", "city": "Boston", "score_home": None, "score_away": None, "date": "2026-06-16", "time_mex": "16:00", "is_mexico": False, "stadium": "Gillette Stadium", "flag_home": "https://flagcdn.com/w320/iq.png", "flag_away": "https://flagcdn.com/w320/no.png"},
-    {"id": 50, "group": "I", "status": "upcoming", "home": "Francia", "away": "Irak", "city": "Filadelfia", "score_home": None, "score_away": None, "date": "2026-06-22", "time_mex": "15:00", "is_mexico": False, "stadium": "Lincoln Financial Field", "flag_home": "https://flagcdn.com/w320/fr.png", "flag_away": "https://flagcdn.com/w320/iq.png"},
-    {"id": 51, "group": "I", "status": "upcoming", "home": "Noruega", "away": "Senegal", "city": "Nueva Jersey", "score_home": None, "score_away": None, "date": "2026-06-22", "time_mex": "18:00", "is_mexico": False, "stadium": "MetLife Stadium", "flag_home": "https://flagcdn.com/w320/no.png", "flag_away": "https://flagcdn.com/w320/sn.png"},
-    {"id": 52, "group": "I", "status": "upcoming", "home": "Noruega", "away": "Francia", "city": "Boston", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "13:00", "is_mexico": False, "stadium": "Gillette Stadium", "flag_home": "https://flagcdn.com/w320/no.png", "flag_away": "https://flagcdn.com/w320/fr.png"},
-    {"id": 53, "group": "I", "status": "upcoming", "home": "Senegal", "away": "Irak", "city": "Toronto", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "13:00", "is_mexico": False, "stadium": "BMO Field", "flag_home": "https://flagcdn.com/w320/sn.png", "flag_away": "https://flagcdn.com/w320/iq.png"},
+    # ==================== GRUPO I (Francia, Senegal, Irak, Noruega) ====================
+    {"id": 49, "group": "I", "status": "upcoming", "home": "Francia", "away": "Senegal", "city": "Nueva Jersey", "score_home": None, "score_away": None, "date": "2026-06-16", "time_mex": "13:00", "is_mexico": False, "stadium": "MetLife Stadium", "flag_home": "https://flagcdn.com/w320/fr.png", "flag_away": "https://flagcdn.com/w320/sn.png"},
+    {"id": 50, "group": "I", "status": "upcoming", "home": "Irak", "away": "Noruega", "city": "Boston", "score_home": None, "score_away": None, "date": "2026-06-16", "time_mex": "16:00", "is_mexico": False, "stadium": "Gillette Stadium", "flag_home": "https://flagcdn.com/w320/iq.png", "flag_away": "https://flagcdn.com/w320/no.png"},
+    {"id": 51, "group": "I", "status": "upcoming", "home": "Francia", "away": "Irak", "city": "Filadelfia", "score_home": None, "score_away": None, "date": "2026-06-22", "time_mex": "15:00", "is_mexico": False, "stadium": "Lincoln Financial Field", "flag_home": "https://flagcdn.com/w320/fr.png", "flag_away": "https://flagcdn.com/w320/iq.png"},
+    {"id": 52, "group": "I", "status": "upcoming", "home": "Noruega", "away": "Senegal", "city": "Nueva Jersey", "score_home": None, "score_away": None, "date": "2026-06-22", "time_mex": "18:00", "is_mexico": False, "stadium": "MetLife Stadium", "flag_home": "https://flagcdn.com/w320/no.png", "flag_away": "https://flagcdn.com/w320/sn.png"},
+    {"id": 53, "group": "I", "status": "upcoming", "home": "Noruega", "away": "Francia", "city": "Boston", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "13:00", "is_mexico": False, "stadium": "Gillette Stadium", "flag_home": "https://flagcdn.com/w320/no.png", "flag_away": "https://flagcdn.com/w320/fr.png"},
+    {"id": 54, "group": "I", "status": "upcoming", "home": "Senegal", "away": "Irak", "city": "Toronto", "score_home": None, "score_away": None, "date": "2026-06-26", "time_mex": "13:00", "is_mexico": False, "stadium": "BMO Field", "flag_home": "https://flagcdn.com/w320/sn.png", "flag_away": "https://flagcdn.com/w320/iq.png"},
 
-    # Grupo J
-    {"id": 54, "group": "J", "status": "upcoming", "home": "Argentina", "away": "Argelia", "city": "Kansas City", "score_home": None, "score_away": None, "date": "2026-06-16", "time_mex": "19:00", "is_mexico": False, "stadium": "Arrowhead Stadium", "flag_home": "https://flagcdn.com/w320/ar.png", "flag_away": "https://flagcdn.com/w320/dz.png"},
-    {"id": 55, "group": "J", "status": "upcoming", "home": "Austria", "away": "Jordania", "city": "San Francisco", "score_home": None, "score_away": None, "date": "2026-06-16", "time_mex": "22:00", "is_mexico": False, "stadium": "Levi's Stadium", "flag_home": "https://flagcdn.com/w320/at.png", "flag_away": "https://flagcdn.com/w320/jo.png"},
-    {"id": 56, "group": "J", "status": "upcoming", "home": "Argentina", "away": "Austria", "city": "Dallas", "score_home": None, "score_away": None, "date": "2026-06-22", "time_mex": "11:00", "is_mexico": False, "stadium": "AT&T Stadium", "flag_home": "https://flagcdn.com/w320/ar.png", "flag_away": "https://flagcdn.com/w320/at.png"},
-    {"id": 57, "group": "J", "status": "upcoming", "home": "Jordania", "away": "Argelia", "city": "San Francisco", "score_home": None, "score_away": None, "date": "2026-06-22", "time_mex": "21:00", "is_mexico": False, "stadium": "Levi's Stadium", "flag_home": "https://flagcdn.com/w320/jo.png", "flag_away": "https://flagcdn.com/w320/dz.png"},
-    {"id": 58, "group": "J", "status": "upcoming", "home": "Argelia", "away": "Austria", "city": "Kansas City", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "20:00", "is_mexico": False, "stadium": "Arrowhead Stadium", "flag_home": "https://flagcdn.com/w320/dz.png", "flag_away": "https://flagcdn.com/w320/at.png"},
-    {"id": 59, "group": "J", "status": "upcoming", "home": "Jordania", "away": "Argentina", "city": "Dallas", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "20:00", "is_mexico": False, "stadium": "AT&T Stadium", "flag_home": "https://flagcdn.com/w320/jo.png", "flag_away": "https://flagcdn.com/w320/ar.png"},
+    # ==================== GRUPO J (Argentina, Argelia, Austria, Jordania) ====================
+    {"id": 55, "group": "J", "status": "upcoming", "home": "Argentina", "away": "Argelia", "city": "Kansas City", "score_home": None, "score_away": None, "date": "2026-06-16", "time_mex": "19:00", "is_mexico": False, "stadium": "Arrowhead Stadium", "flag_home": "https://flagcdn.com/w320/ar.png", "flag_away": "https://flagcdn.com/w320/dz.png"},
+    {"id": 56, "group": "J", "status": "upcoming", "home": "Austria", "away": "Jordania", "city": "San Francisco", "score_home": None, "score_away": None, "date": "2026-06-16", "time_mex": "22:00", "is_mexico": False, "stadium": "Levi's Stadium", "flag_home": "https://flagcdn.com/w320/at.png", "flag_away": "https://flagcdn.com/w320/jo.png"},
+    {"id": 57, "group": "J", "status": "upcoming", "home": "Argentina", "away": "Austria", "city": "Dallas", "score_home": None, "score_away": None, "date": "2026-06-22", "time_mex": "11:00", "is_mexico": False, "stadium": "AT&T Stadium", "flag_home": "https://flagcdn.com/w320/ar.png", "flag_away": "https://flagcdn.com/w320/at.png"},
+    {"id": 58, "group": "J", "status": "upcoming", "home": "Jordania", "away": "Argelia", "city": "San Francisco", "score_home": None, "score_away": None, "date": "2026-06-22", "time_mex": "21:00", "is_mexico": False, "stadium": "Levi's Stadium", "flag_home": "https://flagcdn.com/w320/jo.png", "flag_away": "https://flagcdn.com/w320/dz.png"},
+    {"id": 59, "group": "J", "status": "upcoming", "home": "Argelia", "away": "Austria", "city": "Kansas City", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "20:00", "is_mexico": False, "stadium": "Arrowhead Stadium", "flag_home": "https://flagcdn.com/w320/dz.png", "flag_away": "https://flagcdn.com/w320/at.png"},
+    {"id": 60, "group": "J", "status": "upcoming", "home": "Jordania", "away": "Argentina", "city": "Dallas", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "20:00", "is_mexico": False, "stadium": "AT&T Stadium", "flag_home": "https://flagcdn.com/w320/jo.png", "flag_away": "https://flagcdn.com/w320/ar.png"},
 
-    # Grupo K
-    {"id": 60, "group": "K", "status": "upcoming", "home": "Portugal", "away": "República Democrática del Congo", "city": "Houston", "score_home": None, "score_away": None, "date": "2026-06-17", "time_mex": "11:00", "is_mexico": False, "stadium": "NRG Stadium", "flag_home": "https://flagcdn.com/w320/pt.png", "flag_away": "https://flagcdn.com/w320/cd.png"},
-    {"id": 61, "group": "K", "status": "upcoming", "home": "Uzbekistán", "away": "Colombia", "city": "CDMX", "score_home": None, "score_away": None, "date": "2026-06-17", "time_mex": "20:00", "is_mexico": False, "stadium": "Estadio Azteca", "flag_home": "https://flagcdn.com/w320/uz.png", "flag_away": "https://flagcdn.com/w320/co.png"},
-    {"id": 62, "group": "K", "status": "upcoming", "home": "Portugal", "away": "Uzbekistán", "city": "Houston", "score_home": None, "score_away": None, "date": "2026-06-23", "time_mex": "11:00", "is_mexico": False, "stadium": "NRG Stadium", "flag_home": "https://flagcdn.com/w320/pt.png", "flag_away": "https://flagcdn.com/w320/uz.png"},
-    {"id": 63, "group": "K", "status": "upcoming", "home": "Colombia", "away": "República Democrática del Congo", "city": "Guadalajara", "score_home": None, "score_away": None, "date": "2026-06-23", "time_mex": "20:00", "is_mexico": False, "stadium": "Estadio Akron", "flag_home": "https://flagcdn.com/w320/co.png", "flag_away": "https://flagcdn.com/w320/cd.png"},
-    {"id": 64, "group": "K", "status": "upcoming", "home": "Colombia", "away": "Portugal", "city": "Miami", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "17:30", "is_mexico": False, "stadium": "Hard Rock Stadium", "flag_home": "https://flagcdn.com/w320/co.png", "flag_away": "https://flagcdn.com/w320/pt.png"},
-    {"id": 65, "group": "K", "status": "upcoming", "home": "República Democrática del Congo", "away": "Uzbekistán", "city": "Atlanta", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "17:30", "is_mexico": False, "stadium": "Mercedes-Benz Stadium", "flag_home": "https://flagcdn.com/w320/cd.png", "flag_away": "https://flagcdn.com/w320/uz.png"},
+    # ==================== GRUPO K (Portugal, República Democrática del Congo, Uzbekistán, Colombia) ====================
+    {"id": 61, "group": "K", "status": "upcoming", "home": "Portugal", "away": "República Democrática del Congo", "city": "Houston", "score_home": None, "score_away": None, "date": "2026-06-17", "time_mex": "11:00", "is_mexico": False, "stadium": "NRG Stadium", "flag_home": "https://flagcdn.com/w320/pt.png", "flag_away": "https://flagcdn.com/w320/cd.png"},
+    {"id": 62, "group": "K", "status": "upcoming", "home": "Uzbekistán", "away": "Colombia", "city": "CDMX", "score_home": None, "score_away": None, "date": "2026-06-17", "time_mex": "20:00", "is_mexico": False, "stadium": "Estadio Azteca", "flag_home": "https://flagcdn.com/w320/uz.png", "flag_away": "https://flagcdn.com/w320/co.png"},
+    {"id": 63, "group": "K", "status": "upcoming", "home": "Portugal", "away": "Uzbekistán", "city": "Houston", "score_home": None, "score_away": None, "date": "2026-06-23", "time_mex": "11:00", "is_mexico": False, "stadium": "NRG Stadium", "flag_home": "https://flagcdn.com/w320/pt.png", "flag_away": "https://flagcdn.com/w320/uz.png"},
+    {"id": 64, "group": "K", "status": "upcoming", "home": "Colombia", "away": "República Democrática del Congo", "city": "Guadalajara", "score_home": None, "score_away": None, "date": "2026-06-23", "time_mex": "20:00", "is_mexico": False, "stadium": "Estadio Akron", "flag_home": "https://flagcdn.com/w320/co.png", "flag_away": "https://flagcdn.com/w320/cd.png"},
+    {"id": 65, "group": "K", "status": "upcoming", "home": "Colombia", "away": "Portugal", "city": "Miami", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "17:30", "is_mexico": False, "stadium": "Hard Rock Stadium", "flag_home": "https://flagcdn.com/w320/co.png", "flag_away": "https://flagcdn.com/w320/pt.png"},
+    {"id": 66, "group": "K", "status": "upcoming", "home": "República Democrática del Congo", "away": "Uzbekistán", "city": "Atlanta", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "17:30", "is_mexico": False, "stadium": "Mercedes-Benz Stadium", "flag_home": "https://flagcdn.com/w320/cd.png", "flag_away": "https://flagcdn.com/w320/uz.png"},
 
-    # Grupo L
-    {"id": 66, "group": "L", "status": "upcoming", "home": "Inglaterra", "away": "Croacia", "city": "Dallas", "score_home": None, "score_away": None, "date": "2026-06-17", "time_mex": "14:00", "is_mexico": False, "stadium": "AT&T Stadium", "flag_home": "https://flagcdn.com/w320/gb.png", "flag_away": "https://flagcdn.com/w320/hr.png"},
-    {"id": 67, "group": "L", "status": "upcoming", "home": "Ghana", "away": "Panamá", "city": "Toronto", "score_home": None, "score_away": None, "date": "2026-06-17", "time_mex": "17:00", "is_mexico": False, "stadium": "BMO Field", "flag_home": "https://flagcdn.com/w320/gh.png", "flag_away": "https://flagcdn.com/w320/pa.png"},
-    {"id": 68, "group": "L", "status": "upcoming", "home": "Inglaterra", "away": "Ghana", "city": "Boston", "score_home": None, "score_away": None, "date": "2026-06-23", "time_mex": "14:00", "is_mexico": False, "stadium": "Gillette Stadium", "flag_home": "https://flagcdn.com/w320/gb.png", "flag_away": "https://flagcdn.com/w320/gh.png"},
-    {"id": 69, "group": "L", "status": "upcoming", "home": "Panamá", "away": "Croacia", "city": "Toronto", "score_home": None, "score_away": None, "date": "2026-06-23", "time_mex": "17:00", "is_mexico": False, "stadium": "BMO Field", "flag_home": "https://flagcdn.com/w320/pa.png", "flag_away": "https://flagcdn.com/w320/hr.png"},
-    {"id": 70, "group": "L", "status": "upcoming", "home": "Panamá", "away": "Inglaterra", "city": "Nueva Jersey", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "15:00", "is_mexico": False, "stadium": "MetLife Stadium", "flag_home": "https://flagcdn.com/w320/pa.png", "flag_away": "https://flagcdn.com/w320/gb.png"},
-    {"id": 71, "group": "L", "status": "upcoming", "home": "Croacia", "away": "Ghana", "city": "Filadelfia", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "15:00", "is_mexico": False, "stadium": "Lincoln Financial Field", "flag_home": "https://flagcdn.com/w320/hr.png", "flag_away": "https://flagcdn.com/w320/gh.png"},
+    # ==================== GRUPO L (Inglaterra, Croacia, Ghana, Panamá) ====================
+    {"id": 67, "group": "L", "status": "upcoming", "home": "Inglaterra", "away": "Croacia", "city": "Dallas", "score_home": None, "score_away": None, "date": "2026-06-17", "time_mex": "14:00", "is_mexico": False, "stadium": "AT&T Stadium", "flag_home": "https://flagcdn.com/w320/gb.png", "flag_away": "https://flagcdn.com/w320/hr.png"},
+    {"id": 68, "group": "L", "status": "upcoming", "home": "Ghana", "away": "Panamá", "city": "Toronto", "score_home": None, "score_away": None, "date": "2026-06-17", "time_mex": "17:00", "is_mexico": False, "stadium": "BMO Field", "flag_home": "https://flagcdn.com/w320/gh.png", "flag_away": "https://flagcdn.com/w320/pa.png"},
+    {"id": 69, "group": "L", "status": "upcoming", "home": "Inglaterra", "away": "Ghana", "city": "Boston", "score_home": None, "score_away": None, "date": "2026-06-23", "time_mex": "14:00", "is_mexico": False, "stadium": "Gillette Stadium", "flag_home": "https://flagcdn.com/w320/gb.png", "flag_away": "https://flagcdn.com/w320/gh.png"},
+    {"id": 70, "group": "L", "status": "upcoming", "home": "Panamá", "away": "Croacia", "city": "Toronto", "score_home": None, "score_away": None, "date": "2026-06-23", "time_mex": "17:00", "is_mexico": False, "stadium": "BMO Field", "flag_home": "https://flagcdn.com/w320/pa.png", "flag_away": "https://flagcdn.com/w320/hr.png"},
+    {"id": 71, "group": "L", "status": "upcoming", "home": "Panamá", "away": "Inglaterra", "city": "Nueva Jersey", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "15:00", "is_mexico": False, "stadium": "MetLife Stadium", "flag_home": "https://flagcdn.com/w320/pa.png", "flag_away": "https://flagcdn.com/w320/gb.png"},
+    {"id": 72, "group": "L", "status": "upcoming", "home": "Croacia", "away": "Ghana", "city": "Filadelfia", "score_home": None, "score_away": None, "date": "2026-06-27", "time_mex": "15:00", "is_mexico": False, "stadium": "Lincoln Financial Field", "flag_home": "https://flagcdn.com/w320/hr.png", "flag_away": "https://flagcdn.com/w320/gh.png"},
 ]
 
 # ============================================================
@@ -157,53 +158,29 @@ def calcular_estado_automatico(match):
         
         mexico_tz = pytz.timezone('America/Mexico_City')
         ahora = datetime.now(mexico_tz)
+        fecha_actual = ahora.strftime("%Y-%m-%d")
         
-        # Crear datetime del partido
+        # Si el partido no es hoy, no puede estar en vivo o próximo
+        if date_str != fecha_actual:
+            return "upcoming"
+        
         fecha_partido = datetime.strptime(date_str, "%Y-%m-%d")
         hora_partido = datetime.strptime(time_str, "%H:%M").time()
         datetime_partido = mexico_tz.localize(datetime.combine(fecha_partido, hora_partido))
         
-        # Calcular diferencia en minutos
         diff_minutos = (datetime_partido - ahora).total_seconds() / 60
         
-        # Calcular diferencia en días
-        diff_dias = (fecha_partido - ahora.date()).days
-        
-        # DEBUG: imprimir para partidos problemáticos
-        if match["id"] in [16, 17, 18]:
-            print(f"📅 {match['home']} vs {match['away']} - Fecha: {date_str} - Días: {diff_dias} - Minutos: {diff_minutos:.0f}")
-        
-        # REGLAS:
-        # 1. Si el partido es en el futuro (más de 1 día), es upcoming
-        if diff_dias >= 1:
+        if diff_minutos < -120:
+            return "finished"
+        elif diff_minutos <= 0:
+            return "live"
+        elif diff_minutos <= 30:
+            return "upcoming_soon"
+        else:
             return "upcoming"
-        
-        # 2. Si es hoy, calcular por minutos
-        if diff_dias == 0:
-            if diff_minutos < -120:
-                return "finished"
-            elif diff_minutos <= 0:
-                return "live"
-            elif diff_minutos <= 30:
-                return "upcoming_soon"
-            else:
-                return "upcoming"
-        
-        # 3. Si es ayer o antes
-        if diff_dias < 0:
-            if diff_minutos < -120:
-                return "finished"
-            elif diff_minutos <= 0:
-                return "live"
-            else:
-                return "finished"
-        
+    except Exception:
         return "upcoming"
-        
-    except Exception as e:
-        print(f"Error: {e}")
-        return "upcoming"
-    
+
 # ============================================================
 # ARCHIVO DE CACHÉ
 # ============================================================
@@ -230,7 +207,7 @@ def fetch_live_from_api():
         if response.status_code == 200:
             return response.json()
         return None
-    except Exception as e:
+    except Exception:
         return None
 
 def update_matches_from_api():
@@ -281,7 +258,7 @@ def background_sync():
             update_matches_from_api()
         except Exception:
             pass
-        time.sleep(15)
+        time.sleep(30)
 
 sync_thread = threading.Thread(target=background_sync, daemon=True)
 sync_thread.start()
@@ -304,12 +281,55 @@ def get_matches_with_live_data():
         else:
             match["status"] = calcular_estado_automatico(match)
         
-        # Forzar resultado de Alemania vs Curazao
-        if match["id"] == 18:
+        # Forzar resultados finales de partidos ya jugados
+        if match["id"] == 1:  # México vs Sudáfrica
+            match["score_home"] = 2
+            match["score_away"] = 0
+            match["status"] = "finished"
+        if match["id"] == 2:  # Corea del Sur vs República Checa
+            match["score_home"] = 2
+            match["score_away"] = 1
+            match["status"] = "finished"
+        if match["id"] == 7:  # Canadá vs Bosnia
+            match["score_home"] = 1
+            match["score_away"] = 1
+            match["status"] = "finished"
+        if match["id"] == 8:  # Catar vs Suiza
+            match["score_home"] = 1
+            match["score_away"] = 1
+            match["status"] = "finished"
+        if match["id"] == 13:  # Brasil vs Marruecos
+            match["score_home"] = 1
+            match["score_away"] = 1
+            match["status"] = "finished"
+        if match["id"] == 14:  # Haití vs Escocia
+            match["score_home"] = 0
+            match["score_away"] = 1
+            match["status"] = "finished"
+        if match["id"] == 19:  # Estados Unidos vs Paraguay
+            match["score_home"] = 4
+            match["score_away"] = 1
+            match["status"] = "finished"
+        if match["id"] == 20:  # Australia vs Turquía
+            match["score_home"] = 2
+            match["score_away"] = 0
+            match["status"] = "finished"
+        if match["id"] == 25:  # Alemania vs Curazao
             match["score_home"] = 7
             match["score_away"] = 1
-            if match["status"] != "finished":
-                match["status"] = "finished"
+            match["status"] = "finished"
+        if match["id"] == 26:  # Costa de Marfil vs Ecuador
+            match["score_home"] = 1
+            match["score_away"] = 0
+            match["status"] = "finished"
+        if match["id"] == 31:  # Países Bajos vs Japón
+            match["score_home"] = 2
+            match["score_away"] = 2
+            match["status"] = "finished"
+        if match["id"] == 32:  # Suecia vs Túnez
+            match["score_home"] = 5
+            match["score_away"] = 1
+            match["status"] = "finished"
         
         result.append(match)
     
