@@ -219,7 +219,7 @@ function getFechaActual() {
 
 // Función para actualizar una tarjeta individual
 function updateCard(card, data) {
-    if (!card) return;
+       if (!card) return;
     
     card.dataset.status = data.status;
     
@@ -255,20 +255,22 @@ function updateCard(card, data) {
 }
 
 // Actualizar la sección "En Vivo" (solo partidos de hoy)
+// Actualizar la sección "En Vivo" (sin filtrar por fecha)
+// Actualizar la sección "En Vivo" (solo partidos de hoy)
+// Actualizar la sección "En Vivo" (sin filtrar por fecha)
+// Actualizar la sección "En Vivo"
+// Actualizar la sección "En Vivo" (muestra EN VIVO y PRÓXIMAMENTE)
 function updateLiveSection(data) {
     const liveGrid = document.getElementById('live-matches-grid');
     const noLiveMsg = document.getElementById('no-live-msg');
-    const fechaActual = getFechaActual();
     
     if (!liveGrid) return;
     
-    // Limpiar grid
     liveGrid.innerHTML = '';
     let liveCount = 0;
     
-    // Filtrar partidos de hoy que están EN VIVO o PRÓXIMAMENTE
-    const partidosHoy = data.filter(m => m.date === fechaActual);
-    const partidosMostrar = partidosHoy.filter(m => m.status === 'live' || m.status === 'upcoming_soon');
+    // Mostrar partidos con estado 'live' o 'upcoming_soon' (sin filtrar por fecha)
+    const partidosMostrar = data.filter(m => m.status === 'live' || m.status === 'upcoming_soon');
     
     partidosMostrar.forEach(match => {
         liveCount++;
@@ -282,6 +284,8 @@ function updateLiveSection(data) {
     
     noLiveMsg.style.display = liveCount > 0 ? 'none' : 'block';
 }
+
+fetch('/api/status').then(r=>r.json()).then(d=>console.log(d.filter(m=>m.status==='live')))
 
 // Actualizar ticker
 function updateTicker(matches) {
