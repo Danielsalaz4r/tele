@@ -155,24 +155,55 @@ def calcular_estado_automatico(match):
         if not time_str or not date_str:
             return "upcoming"
         
+        mexico_tz = pytz.timezone('America/Mexico_City')
+        ahora = datetime.now(mexico_tz)
+        
+        # Crear datetime del partido
         fecha_partido = datetime.strptime(date_str, "%Y-%m-%d")
         hora_partido = datetime.strptime(time_str, "%H:%M").time()
         datetime_partido = mexico_tz.localize(datetime.combine(fecha_partido, hora_partido))
         
-        ahora = datetime.now(mexico_tz)
+        # Calcular diferencia en minutos
         diff_minutos = (datetime_partido - ahora).total_seconds() / 60
         
-        if diff_minutos < -120:
-            return "finished"
-        elif diff_minutos <= 0:
-            return "live"
-        elif diff_minutos <= 30:
-            return "upcoming_soon"
-        else:
+        # Calcular diferencia en días
+        diff_dias = (fecha_partido - ahora.date()).days
+        
+        # DEBUG: imprimir para partidos problemáticos
+        if match["id"] in [16, 17, 18]:
+            print(f"📅 {match['home']} vs {match['away']} - Fecha: {date_str} - Días: {diff_dias} - Minutos: {diff_minutos:.0f}")
+        
+        # REGLAS:
+        # 1. Si el partido es en el futuro (más de 1 día), es upcoming
+        if diff_dias >= 1:
             return "upcoming"
-    except Exception:
+        
+        # 2. Si es hoy, calcular por minutos
+        if diff_dias == 0:
+            if diff_minutos < -120:
+                return "finished"
+            elif diff_minutos <= 0:
+                return "live"
+            elif diff_minutos <= 30:
+                return "upcoming_soon"
+            else:
+                return "upcoming"
+        
+        # 3. Si es ayer o antes
+        if diff_dias < 0:
+            if diff_minutos < -120:
+                return "finished"
+            elif diff_minutos <= 0:
+                return "live"
+            else:
+                return "finished"
+        
         return "upcoming"
-
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return "upcoming"
+    
 # ============================================================
 # ARCHIVO DE CACHÉ
 # ============================================================
@@ -274,7 +305,7 @@ def get_matches_with_live_data():
             match["status"] = calcular_estado_automatico(match)
         
         # Forzar resultado de Alemania vs Curazao
-        if match["id"] == 15:
+        if match["id"] == 18:
             match["score_home"] = 7
             match["score_away"] = 1
             if match["status"] != "finished":
